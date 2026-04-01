@@ -1,0 +1,13 @@
+.dashboard-page .glass-panel {
+  background: rgba(34, 40, 28, 0.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.dashboard-page .aurora-glow {
+  background: radial-gradient(circle at center, rgba(197, 253, 93, 0.15) 0%, transparent 70%);
+}
+
+.dashboard-page .material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}

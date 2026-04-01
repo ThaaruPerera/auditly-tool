@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-container": "#5f5600",
+                        surface: "#0b0f08",
+                        "on-surface": "#f2f5e7",
+                        "error-container": "#b92902",
+                        "on-primary": "#426000",
+                        "on-primary-container": "#192700",
+                        "surface-tint": "#c5fd5d",
+                        "on-secondary-fixed-variant": "#5b6000",
+                        "secondary-container": "#5e6300",
+                        "tertiary-fixed-dim": "#eedc47",
+                        background: "#0b0f08",
+                        "surface-variant": "#22281c",
+                        "surface-container-highest": "#22281c",
+                        "inverse-primary": "#496800",
+                        error: "#ff7351",
+                        "secondary-fixed": "#e3eb5d",
+                        "inverse-on-surface": "#52574c",
+                        "surface-container-low": "#10150c",
+                        "inverse-surface": "#f7fbec",
+                        "primary-fixed": "#c5fd5d",
+                        "primary-dim": "#b8ee50",
+                        "secondary-fixed-dim": "#d5dc50",
+                        "error-dim": "#d53d18",
+                        "primary-fixed-dim": "#b8ee50",
+                        "on-surface-variant": "#a9ada0",
+                        "on-error-container": "#ffd2c8",
+                        "tertiary-container": "#fdeb54",
+                        "surface-container-high": "#1c2116",
+                        "on-secondary": "#515600",
+                        "surface-container": "#161b11",
+                        secondary: "#e3eb5d",
+                        "on-secondary-fixed": "#3f4200",
+                        "tertiary-fixed": "#fdeb54",
+                        "on-tertiary-fixed": "#4b4400",
+                        primary: "#c5fd5d",
+                        "on-primary-fixed-variant": "#4a6a00",
+                        "surface-bright": "#282e21",
+                        "secondary-dim": "#d5dc50",
+                        "on-background": "#f2f5e7",
+                        "on-error": "#450900",
+                        "tertiary-dim": "#eedc47",
+                        "surface-container-lowest": "#000000",
+                        "on-secondary-container": "#f9ff8a",
+                        "outline-variant": "#45493f",
+                        outline: "#73776b",
+                        tertiary: "#fff7d0",
+                        "primary-container": "#7eb00a",
+                        "on-primary-fixed": "#344c00",
+                        "on-tertiary": "#685e00",
+                        "surface-dim": "#0b0f08",
+                        "on-tertiary-fixed-variant": "#6a6000"
+                    },
+                    fontFamily: {
+                        headline: ["Plus Jakarta Sans"],
+                        body: ["Plus Jakarta Sans"],
+                        label: ["Plus Jakarta Sans"],
+                        display: "Plus Jakarta Sans"
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        lg: "2rem",
+                        xl: "3rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        body {
+            background-color: #0b0f08;
+            margin: 0;
+            padding: 0;
+        }
+        .hero-bg {
+            position: relative;
+            background: radial-gradient(circle at 50% -20%, #1a2408 0%, #0b0f08 70%);
+            background-image: 
+                linear-gradient(to right, rgba(197, 253, 93, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(197, 253, 93, 0.1) 1px, transparent 1px),
+                radial-gradient(circle at 50% -20%, #1a2408 0%, #0b0f08 70%);
+            background-size: 60px 60px, 60px 60px, 100% 100%;
+            overflow: hidden;
+        }
+        .glass-card {
+            background: rgba(34, 40, 28, 0.4);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 253, 93, 0.1);
+        }
+        .curved-transition {
+            position: relative;
+            height: 180px;
+            width: 100%;
+            overflow: hidden;
+            margin-top: -20px;
+            z-index: 10;
+        }
+        .curve-shape {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200%;
+            height: 1000px;
+            background: #0b0f08;
+            border-radius: 50% 50% 0 0;
+            box-shadow: 0 -40px 100px rgba(199, 255, 95, 0.3);
+        }
+        .solid-section {
+            background-color: #0b0f08;
+            position: relative;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body class="font-body text-on-surface antialiased min-h-screen">
+<!-- Hero Background Wrapper -->
+<div class="hero-bg">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between gap-8 bg-stone-950/40 backdrop-blur-xl rounded-full mt-6 mx-auto w-fit px-6 py-2 border border-white/10 font-['Plus_Jakarta_Sans'] tracking-tight text-sm font-medium shadow-[0_0_40px_-15px_rgba(197,253,93,0.15)]">
+<div class="text-2xl font-bold tracking-tighter text-stone-50 flex items-center gap-2">
+                AuditAI
+            </div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-lime-400 font-semibold hover:text-white transition-colors duration-300" href="#">About</a>
+<a class="text-stone-400 hover:text-white transition-colors duration-300" href="#">Solutions</a>
+<a class="text-stone-400 hover:text-white transition-colors duration-300" href="#">Why AuditAI</a>
+<a class="text-stone-400 hover:text-white transition-colors duration-300" href="#">Pricing</a>
+</nav>
+<button class="bg-primary text-on-primary-container px-5 py-1.5 rounded-full font-bold scale-95 active:scale-90 transition-transform">
+                Analyze
+            </button>
+</header>
+<main class="pt-32">
+<!-- Hero Section -->
+<section class="max-w-4xl mx-auto text-center space-y-8 relative px-6 pb-20">
+<!-- Top Aura Glow matching IMAGE_18 top glow -->
+<div class="absolute -top-60 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/20 rounded-full blur-[140px] -z-10"></div>
+<h1 class="text-5xl md:text-7xl font-headline font-extrabold tracking-tight text-on-surface leading-[1.1]">
+                    AI Website <br/> <span class="text-primary">Audit Tool</span>
+</h1>
+<p class="text-xl text-on-surface-variant max-w-2xl mx-auto">
+                    Analyze your website’s SEO, content, and UX in seconds using our proprietary Digital Aurora engine.
+                </p>
+<div class="max-w-2xl mx-auto mt-12 glass-card p-2 rounded-full flex items-center gap-2 group transition-all duration-300 focus-within:ring-2 focus-within:ring-primary/30">
+<div class="pl-4 flex items-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">language</span>
+</div>
+<input class="bg-transparent border-none focus:ring-0 text-on-surface w-full placeholder:text-outline py-4" placeholder="Enter your website URL..." type="text"/>
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary-container px-8 py-4 rounded-full font-bold whitespace-nowrap scale-100 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-primary/20">
+                        Analyze Now
+                    </button>
+</div>
+<!-- Social Proof -->
+<div class="pt-12 flex flex-col items-center gap-4">
+<span class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-bold">Trusted by leading innovators</span>
+<div class="flex flex-wrap justify-center gap-8 opacity-40 grayscale contrast-125">
+<img alt="Nvidia" class="h-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeeuSEs29wk8XdJ7lpAq2zzkzptyOMnefBZNLqT1WEvUsfZGA3xtchOhxGzbFOw8gm9-H57ZyyVft8oXatTmQ8YrwdcciayaSpJSv20qq_k-Yuyr-rRwZLUfaK6glpBkgHNOFwtMls93QlPFYAhGCCwI5Ol1PQht0RW_fDwp1_nHhF-ezA3emeFUROG2H9WEJytHgA4oZPvjdCBMFtUCeHwL9GRLoSQ-3uTMcYuESjBFyO1Q3HZMD6AJHVGCrSl77A5TUI0zfZ4X8"/>
+<img alt="Figma" class="h-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcn0YUG3GMmq-sxX0IzBU27Z54CLoaKGjeCbUGxNwLPoAPlv2dW9pemRemZEG1SHTo0oWVN5t9-rJPut1jcQwmhJ5e4YJNWU6Rp6pAUrnplj8Cq8r4pwTKOs4Vpumi2h3Tusq0jmUQONIGFXN3My-dhVkURiMgpa-M2ekC9Q_0U5JnL8SUkLYTgb2AOZSALu_vdjMJUQSH2D3cHrupI77p0axuupJBtJ0rMHkPwzRXgJnL1n4k7zRJWE44SfIeLYZ6fUqvV33d6dM"/>
+<img alt="Google" class="h-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiPTasivte9Xn-Uu_04-HUYZiaNlzIGVW08A_93OPvD6-O7uaFr9cNI1tN7A4Kq4ugKIoHLIpaRXXVw5G6CUnLMqSxLHVeAb9we1-kVyW1YrVm2Ng1-VmsHGj3mDRRZeuJQuRVUh2IpNgldlxhwaTmT8ZP6cflavd2oXsnEUf73e6rsGZplYNgsIQ2Z5e2ZhkhRJjzZnqBTLAFPggD5Svv0CGaGv6ftzJbJsT6amOuTBr5ed0wF27Fn3E6AT6mUM191j0CVIpKux0"/>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Curved Transition matching IMAGE_18 exactly -->
+<div class="curved-transition">
+<div class="curve-shape"></div>
+</div>
+<!-- Solid Background Sections with NO grid -->
+<div class="solid-section pb-20">
+<!-- Features Bento Grid -->
+<section class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 pt-12">
+<!-- Feature Card 1 -->
+<div class="surface-container-high rounded-xl p-8 border border-outline-variant/10 hover:border-primary/20 transition-all duration-500 group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-8 opacity-5 text-on-surface">
+<span class="material-symbols-outlined text-8xl">search_check</span>
+</div>
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">manage_search</span>
+</div>
+<h3 class="text-xl font-bold mb-3">Deep SEO Scan</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                    Uncover hidden technical issues and keyword opportunities with our multi-layered semantic analyzer.
+                </p>
+</div>
+<!-- Feature Card 2 -->
+<div class="surface-container-high rounded-xl p-8 border border-outline-variant/10 hover:border-primary/20 transition-all duration-500 group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-8 opacity-5 text-on-surface">
+<span class="material-symbols-outlined text-8xl">show_chart</span>
+</div>
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">heat_pump</span>
+</div>
+<h3 class="text-xl font-bold mb-3">UX Heatmaps</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                    Predict user behavior with AI-generated attention maps that simulate real scrolling and clicking patterns.
+                </p>
+</div>
+<!-- Feature Card 3 -->
+<div class="surface-container-high rounded-xl p-8 border border-outline-variant/10 hover:border-primary/20 transition-all duration-500 group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-8 opacity-5 text-on-surface">
+<span class="material-symbols-outlined text-8xl">auto_awesome</span>
+</div>
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">neurology</span>
+</div>
+<h3 class="text-xl font-bold mb-3">Content Intelligence</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                    Optimize readability and engagement scores with real-time suggestions based on current industry benchmarks.
+                </p>
+</div>
+</section>
+<!-- Dynamic Visualization (Editorial Section) -->
+<section class="max-w-6xl mx-auto mt-40 rounded-xl overflow-hidden glass-card mx-6">
+<div class="grid md:grid-cols-2 gap-12 items-center">
+<div class="p-12 space-y-6">
+<span class="text-primary text-xs font-bold uppercase tracking-widest">Real-time Performance</span>
+<h2 class="text-4xl font-headline font-bold">The Luminescent Layer Analysis</h2>
+<p class="text-on-surface-variant">Our engine doesn't just read code; it interprets visual hierarchy, assessing your design through the lens of modern digital aesthetics.</p>
+<ul class="space-y-4">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="text-sm font-medium">Automatic WCAG Accessibility Check</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="text-sm font-medium">Lighthouse V10 Performance Benchmarks</span>
+</li>
+</ul>
+<button class="bg-surface-variant border border-outline-variant/20 text-on-surface px-6 py-3 rounded-full font-bold text-sm hover:bg-surface-container transition-all">
+                        View Sample Audit
+                    </button>
+</div>
+<div class="relative h-full min-h-[400px] overflow-hidden">
+<img alt="Dashboard" class="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSet2JnWX65et1H2p-zn6Qf0g7Ju36vFGkM0dUCqsRv2tISq0Iw8rke6cXCWN_kwOMTRmNaNykqwM8Ujr1g48_Do7lQk3YrZPywEz51C0wge4mfJMO78zY4-3OAu37CAftcuz-0plvFEzN3svaIA8xosMfwSYP__LflVvY5FdnYbaTqA9PIOC6PWNFJNoCCPDOc8-Le48cPqqFHHbKURb1rD5j9eNPsvnbWHW8C7wQE89EHDxa6h4Tt52ZByE2h_kYqXU6NygRUCo"/>
+<div class="absolute inset-0 bg-gradient-to-l from-transparent to-black/80"></div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer -->
+<footer class="solid-section w-full py-12 border-t border-white/5">
+<div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="text-lg font-black text-stone-50">
+                AuditAI
+            </div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="font-['Plus_Jakarta_Sans'] text-xs uppercase tracking-widest text-stone-500 hover:text-lime-400 transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="font-['Plus_Jakarta_Sans'] text-xs uppercase tracking-widest text-stone-500 hover:text-lime-400 transition-colors opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+<a class="font-['Plus_Jakarta_Sans'] text-xs uppercase tracking-widest text-stone-500 hover:text-lime-400 transition-colors opacity-80 hover:opacity-100" href="#">Documentation</a>
+<a class="font-['Plus_Jakarta_Sans'] text-xs uppercase tracking-widest text-stone-500 hover:text-lime-400 transition-colors opacity-80 hover:opacity-100" href="#">Status</a>
+</div>
+<p class="font-['Plus_Jakarta_Sans'] text-xs uppercase tracking-widest text-stone-500">
+                © 2024 AuditAI. The Digital Aurora Experience.
+            </p>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LUMEN AI - Scan History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#c5fd5d",
+              "secondary": "#e3eb5d",
+              "on-secondary": "#515600",
+              "primary-fixed-dim": "#b8ee50",
+              "on-tertiary-container": "#5f5600",
+              "surface-container-low": "#10150c",
+              "tertiary-fixed": "#fdeb54",
+              "primary-fixed": "#c5fd5d",
+              "tertiary": "#fff7d0",
+              "primary": "#c5fd5d",
+              "on-secondary-container": "#f9ff8a",
+              "on-tertiary": "#685e00",
+              "primary-container": "#7eb00a",
+              "surface-container-high": "#1c2116",
+              "tertiary-fixed-dim": "#eedc47",
+              "secondary-fixed-dim": "#d5dc50",
+              "surface-dim": "#0b0f08",
+              "secondary-container": "#5e6300",
+              "primary-dim": "#b8ee50",
+              "on-secondary-fixed-variant": "#5b6000",
+              "on-primary-fixed-variant": "#4a6a00",
+              "on-primary-fixed": "#344c00",
+              "inverse-primary": "#496800",
+              "error-container": "#b92902",
+              "inverse-on-surface": "#52574c",
+              "on-surface": "#f2f5e7",
+              "background": "#0b0f08",
+              "surface-variant": "#22281c",
+              "on-surface-variant": "#a9ada0",
+              "on-tertiary-fixed": "#4b4400",
+              "surface-container-highest": "#22281c",
+              "outline": "#73776b",
+              "on-error-container": "#ffd2c8",
+              "secondary-fixed": "#e3eb5d",
+              "surface-container": "#161b11",
+              "inverse-surface": "#f7fbec",
+              "tertiary-container": "#fdeb54",
+              "on-primary-container": "#192700",
+              "on-background": "#f2f5e7",
+              "surface": "#0b0f08",
+              "on-secondary-fixed": "#3f4200",
+              "on-primary": "#426000",
+              "surface-bright": "#282e21",
+              "secondary-dim": "#d5dc50",
+              "tertiary-dim": "#eedc47",
+              "surface-container-lowest": "#000000",
+              "on-error": "#450900",
+              "error": "#ff7351",
+              "on-tertiary-fixed-variant": "#6a6000",
+              "outline-variant": "#45493f",
+              "error-dim": "#d53d18"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            background: rgba(28, 33, 22, 0.4);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(69, 73, 63, 0.15);
+        }
+        .aurora-glow {
+            background: radial-gradient(circle at top right, rgba(197, 253, 93, 0.08), transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(126, 176, 10, 0.05), transparent 50%);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen aurora-glow selection:bg-primary/30">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0b0f08]/80 backdrop-blur-xl shadow-[0_20px_50px_rgba(73,104,0,0.08)]">
+<div class="flex justify-between items-center px-8 h-20 w-full max-w-screen-2xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-[#c5fd5d]">LUMEN AI</div>
+<nav class="hidden md:flex items-center space-x-8 font-['Plus_Jakarta_Sans'] tracking-tight text-sm">
+<a class="text-[#a9ada0] hover:text-[#f2f5e7] transition-all duration-300" href="#">Dashboard</a>
+<a class="text-[#c5fd5d] font-bold border-b-2 border-[#c5fd5d] pb-1 transition-all duration-300" href="#">History</a>
+</nav>
+<div class="flex items-center space-x-6">
+<button class="material-symbols-outlined text-[#a9ada0] transition-all duration-300 hover:text-[#c5fd5d]">account_circle</button>
+<button class="bg-[#c5fd5d] text-[#192700] px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(197,253,93,0.3)]">
+                    Get Started
+                </button>
+</div>
+</div>
+</header>
+<main class="pt-32 pb-24 px-8 max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="mb-12">
+<div class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-high text-primary text-[10px] font-bold uppercase tracking-[0.2em] mb-4">
+                Audit Registry
+            </div>
+<h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter mb-6 leading-tight">
+                Scan <span class="text-primary italic">History.</span>
+</h1>
+<p class="text-on-surface-variant text-lg max-w-2xl leading-relaxed">
+                Review your previous performance audits, tracking the evolution of your web platform's health and security metrics.
+            </p>
+</div>
+<!-- History Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+<!-- Filter Sidebar (Luminescent Layer) -->
+<aside class="lg:col-span-1 space-y-6">
+<div class="glass-card p-6 rounded-lg">
+<h3 class="text-sm font-bold uppercase tracking-widest text-primary mb-6">Quick Filters</h3>
+<div class="space-y-4">
+<label class="flex items-center space-x-3 cursor-pointer group">
+<div class="w-5 h-5 rounded border border-outline-variant flex items-center justify-center group-hover:border-primary transition-colors">
+<div class="w-2 h-2 bg-primary rounded-sm opacity-0 group-hover:opacity-100"></div>
+</div>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">High Performance</span>
+</label>
+<label class="flex items-center space-x-3 cursor-pointer group">
+<div class="w-5 h-5 rounded border border-outline-variant flex items-center justify-center group-hover:border-primary transition-colors">
+<div class="w-2 h-2 bg-primary rounded-sm opacity-0 group-hover:opacity-100"></div>
+</div>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Security Critical</span>
+</label>
+<label class="flex items-center space-x-3 cursor-pointer group">
+<div class="w-5 h-5 rounded border border-outline-variant flex items-center justify-center group-hover:border-primary transition-colors">
+<div class="w-2 h-2 bg-primary rounded-sm opacity-0 group-hover:opacity-100"></div>
+</div>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">SEO Optimization</span>
+</label>
+</div>
+</div>
+<div class="bg-primary-container/20 p-6 rounded-lg border border-primary/10 relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/30 transition-all duration-500"></div>
+<p class="text-xs font-bold text-primary mb-2">PRO TIP</p>
+<p class="text-sm text-on-surface-variant leading-snug">Compare two historical scans to see how your recent code changes impacted your core web vitals.</p>
+</div>
+</aside>
+<!-- Table Section -->
+<div class="lg:col-span-3">
+<div class="glass-card overflow-hidden rounded-lg">
+<!-- Custom Table Component -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high/50">
+<th class="px-8 py-5 text-xs font-black uppercase tracking-[0.1em] text-on-surface-variant">URL Destination</th>
+<th class="px-6 py-5 text-xs font-black uppercase tracking-[0.1em] text-on-surface-variant">Scan Date</th>
+<th class="px-6 py-5 text-xs font-black uppercase tracking-[0.1em] text-on-surface-variant">Overall Score</th>
+<th class="px-8 py-5 text-right text-xs font-black uppercase tracking-[0.1em] text-on-surface-variant">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Row 1 -->
+<tr class="group hover:bg-surface-container-high/30 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded bg-surface-container flex items-center justify-center overflow-hidden">
+<img class="w-6 h-6 opacity-80" data-alt="minimalist tech logo icon in shades of lime green and dark grey on a transparent background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUofa4327gCVmS3Sv4IUUfSFufKsjfdY24fujHue3oMOV27VdkYYa99CDA10pnKGjVI1IRrPGTpqC9OvQkr_fIJKR8BqxAAqs4M6kjaKQDLtwg710l3fxoSFwWQir_NKx5gx0_8Ik9y09nL9WN4hezkfKBvZMJaj-pPGQhVqWXAULBbt_wLirjno3HrAgK1vniKkb2khKjy3ox6XzmZeMsnNpyGXYx5TAHTmdkycHOmwt-EJzWJ1M3TlQV0nuZfj0p-mb2jqpCNpo"/>
+</div>
+<div>
+<div class="text-sm font-bold text-on-surface">lumen-ai.io/dashboard</div>
+<div class="text-[10px] text-on-surface-variant">Production Environment</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6">
+<div class="text-sm text-on-surface-variant">Oct 24, 2024</div>
+<div class="text-[10px] text-outline italic">2:45 PM UTC</div>
+</td>
+<td class="px-6 py-6">
+<div class="flex items-center space-x-2">
+<span class="text-primary font-black text-lg">98</span>
+<span class="text-[10px] text-on-surface-variant">/ 100</span>
+<div class="w-8 h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[98%]"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="px-5 py-2 rounded-full border border-outline-variant text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-300">
+                                            View Details
+                                        </button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-surface-container-high/30 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded bg-surface-container flex items-center justify-center overflow-hidden">
+<img class="w-6 h-6 opacity-80" data-alt="circular minimalist geometric brand icon using forest green tones on dark surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0afVPLbVYxyZC5GUUWJh4WPf2VeZbs0BCl8VGzNZ5IQnuG_FqdHpI2HAkOzrImHgK1P0iaqSGqZSsgL4laspqWIuLsecS3wj6-e6ZQcRmiWIFWyCPQTBL-bl9gPpiRW0VAsufwhkv2jU6IYdz-D2i1_TzA3qQ8vavFk2zeaBO_SV7mw8J1Zl4XMh81kw2p0M9IOpnIEeOYvQTN-e8MUTKDe8xTyV29L8QCGipQc_oRNMQlFUIjWrNNg0en0u0NmN4YciyTitZLQ4"/>
+</div>
+<div>
+<div class="text-sm font-bold text-on-surface">staging.lumen-ai.io/pricing</div>
+<div class="text-[10px] text-on-surface-variant">Staging Environment</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6">
+<div class="text-sm text-on-surface-variant">Oct 22, 2024</div>
+<div class="text-[10px] text-outline italic">09:12 AM UTC</div>
+</td>
+<td class="px-6 py-6">
+<div class="flex items-center space-x-2">
+<span class="text-primary font-black text-lg">94</span>
+<span class="text-[10px] text-on-surface-variant">/ 100</span>
+<div class="w-8 h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[94%]"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="px-5 py-2 rounded-full border border-outline-variant text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-300">
+                                            View Details
+                                        </button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-surface-container-high/30 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded bg-surface-container flex items-center justify-center overflow-hidden">
+<img class="w-6 h-6 opacity-80" data-alt="modern abstract letter L logo in vibrant lime green color style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCu1aDutkIwkhhoWg9LWX1-EX8JogHmj24DRO88p8UKaFWDfT_0dHAHPXFoNSpdfeGz_6FpO36rWzrRZXEATRS5wAJn2bK8FSBo9R4CpnmvLqt0ZSm42PTp4XYlmz7VTXKhcty1IASbknZnqwk2pZMO5GYUcSsaHohlixALMULaeyt-0vMi6L6c_8KJrE_nzG0hG4_-o-B8ZvYaUB6mMpnN5ZFmYQbPR_aFvpAfkXI9gi7Apk51YKlYRAr9HrJ4CNhfb8hrQ6NhrBg"/>
+</div>
+<div>
+<div class="text-sm font-bold text-on-surface">github.com/lumen/docs</div>
+<div class="text-[10px] text-on-surface-variant">External Source</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6">
+<div class="text-sm text-on-surface-variant">Oct 18, 2024</div>
+<div class="text-[10px] text-outline italic">11:30 PM UTC</div>
+</td>
+<td class="px-6 py-6">
+<div class="flex items-center space-x-2">
+<span class="text-error font-black text-lg">62</span>
+<span class="text-[10px] text-on-surface-variant">/ 100</span>
+<div class="w-8 h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error w-[62%]"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="px-5 py-2 rounded-full border border-outline-variant text-[10px] font-bold uppercase tracking-widest hover:bg-error hover:text-on-error hover:border-error transition-all duration-300">
+                                            View Details
+                                        </button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-surface-container-high/30 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded bg-surface-container flex items-center justify-center overflow-hidden">
+<img class="w-6 h-6 opacity-80" data-alt="minimalist cybernetic eye icon with lime green glowing iris on dark obsidian background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkqt2G-a3y1Pv0a8vAuewL8Ff7WqzQRul4rpiGgMwhKtYp2EVYnXcoepEcmg4-DOojqhKcHIY8azCMu5NffiM0vlSf9edJH0YaA6FCydiyQ1foVFrPnSbksrWDUVQwOvzvWIePyxRADj0xADwlRMGH0FDToEQnHF0lyd7vYads7a5ppJsAcmVxSWcD5251NK2kIIZ7SnChEVUKtJUFMYlDXKs6nN7ue6FB_Def9ar2k5BZeaOEOgmCfJe--ubq452Bzy9NjRTeD0M"/>
+</div>
+<div>
+<div class="text-sm font-bold text-on-surface">api.lumen-ai.io/v1</div>
+<div class="text-[10px] text-on-surface-variant">Core Infrastructure</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6">
+<div class="text-sm text-on-surface-variant">Oct 15, 2024</div>
+<div class="text-[10px] text-outline italic">03:00 AM UTC</div>
+</td>
+<td class="px-6 py-6">
+<div class="flex items-center space-x-2">
+<span class="text-primary font-black text-lg">99</span>
+<span class="text-[10px] text-on-surface-variant">/ 100</span>
+<div class="w-8 h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[99%]"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="px-5 py-2 rounded-full border border-outline-variant text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-300">
+                                            View Details
+                                        </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="px-8 py-6 bg-surface-container-high/20 flex justify-between items-center">
+<div class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Showing 4 of 128 results</div>
+<div class="flex space-x-2">
+<button class="w-8 h-8 rounded bg-surface-container border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded bg-primary text-on-primary flex items-center justify-center text-[10px] font-bold">1</button>
+<button class="w-8 h-8 rounded bg-surface-container border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors text-[10px] font-bold">2</button>
+<button class="w-8 h-8 rounded bg-surface-container border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors text-[10px] font-bold">3</button>
+<button class="w-8 h-8 rounded bg-surface-container border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#0b0f08] w-full py-12 px-8 border-t border-[#1c2116]">
+<div class="flex flex-col md:flex-row justify-between items-center w-full max-w-7xl mx-auto space-y-4 md:space-y-0">
+<div class="text-lg font-black text-[#c5fd5d]">LUMEN AI</div>
+<div class="flex space-x-8">
+<a class="font-['Plus_Jakarta_Sans'] text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors" href="#">Terms</a>
+<a class="font-['Plus_Jakarta_Sans'] text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors" href="#">Privacy</a>
+<a class="font-['Plus_Jakarta_Sans'] text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors" href="#">Support</a>
+<a class="font-['Plus_Jakarta_Sans'] text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors" href="#">API</a>
+</div>
+<div class="font-['Plus_Jakarta_Sans'] text-xs uppercase tracking-widest text-[#a9ada0] opacity-80">
+                © 2024 Lumen AI Audit. All rights reserved.
+            </div>
+</div>
+</footer>
+</body></html>

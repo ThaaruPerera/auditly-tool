@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AuraAudit | Analyzing Website</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#c5fd5d",
+              "on-primary-container": "#192700",
+              "on-primary": "#426000",
+              "secondary-container": "#5e6300",
+              "on-secondary-fixed-variant": "#5b6000",
+              "surface": "#0b0f08",
+              "on-tertiary-container": "#5f5600",
+              "on-surface": "#f2f5e7",
+              "error-container": "#b92902",
+              "inverse-primary": "#496800",
+              "surface-container-highest": "#22281c",
+              "surface-variant": "#22281c",
+              "error": "#ff7351",
+              "background": "#0b0f08",
+              "tertiary-fixed-dim": "#eedc47",
+              "primary-dim": "#b8ee50",
+              "primary-fixed": "#c5fd5d",
+              "inverse-surface": "#f7fbec",
+              "surface-container-low": "#10150c",
+              "secondary-fixed": "#e3eb5d",
+              "inverse-on-surface": "#52574c",
+              "on-surface-variant": "#a9ada0",
+              "primary-fixed-dim": "#b8ee50",
+              "secondary-fixed-dim": "#d5dc50",
+              "error-dim": "#d53d18",
+              "tertiary-container": "#fdeb54",
+              "on-secondary": "#515600",
+              "surface-container-high": "#1c2116",
+              "on-error-container": "#ffd2c8",
+              "primary": "#c5fd5d",
+              "on-primary-fixed-variant": "#4a6a00",
+              "surface-container": "#161b11",
+              "tertiary-fixed": "#fdeb54",
+              "on-tertiary-fixed": "#4b4400",
+              "secondary": "#e3eb5d",
+              "on-secondary-fixed": "#3f4200",
+              "tertiary-dim": "#eedc47",
+              "secondary-dim": "#d5dc50",
+              "surface-bright": "#282e21",
+              "on-error": "#450900",
+              "on-background": "#f2f5e7",
+              "surface-dim": "#0b0f08",
+              "on-tertiary": "#685e00",
+              "on-primary-fixed": "#344c00",
+              "primary-container": "#7eb00a",
+              "on-tertiary-fixed-variant": "#6a6000",
+              "surface-container-lowest": "#000000",
+              "tertiary": "#fff7d0",
+              "outline-variant": "#45493f",
+              "outline": "#73776b",
+              "on-secondary-container": "#f9ff8a"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .aurora-blur {
+            filter: blur(80px);
+            background: radial-gradient(circle, rgba(197, 253, 93, 0.15) 0%, rgba(11, 15, 8, 0) 70%);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body overflow-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0b0f08]/80 backdrop-blur-xl shadow-[0_20px_50px_rgba(73,104,0,0.08)]">
+<div class="flex justify-between items-center px-8 py-4 max-w-full mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-[#f2f5e7]">
+                AuraAudit
+            </div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-plus-jakarta-sans text-sm tracking-tight text-[#a9ada0] hover:text-[#f2f5e7] hover:bg-[#c5fd5d]/10 transition-colors duration-300 px-3 py-1 rounded-full active:scale-95 transform transition-all" href="#">Dashboard</a>
+<a class="font-plus-jakarta-sans text-sm tracking-tight text-[#a9ada0] hover:text-[#f2f5e7] hover:bg-[#c5fd5d]/10 transition-colors duration-300 px-3 py-1 rounded-full active:scale-95 transform transition-all" href="#">History</a>
+<a class="font-plus-jakarta-sans text-sm tracking-tight text-[#a9ada0] hover:text-[#f2f5e7] hover:bg-[#c5fd5d]/10 transition-colors duration-300 px-3 py-1 rounded-full active:scale-95 transform transition-all" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden md:block font-plus-jakarta-sans text-sm tracking-tight text-[#a9ada0] hover:text-[#f2f5e7] px-4 py-2">Login</button>
+<button class="bg-primary text-on-primary-container px-6 py-2 rounded-full font-plus-jakarta-sans text-sm font-bold tracking-tight hover:bg-primary/90 transition-all active:scale-95 transform">Analyze</button>
+</div>
+</div>
+<div class="bg-gradient-to-b from-[#1c2116] to-transparent h-[1px]"></div>
+</header>
+<!-- Main Content: Loading Canvas -->
+<main class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+<!-- Background Grid & Aurora -->
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#45493f 1px, transparent 1px); background-size: 40px 40px;"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] aurora-blur z-0"></div>
+<!-- Central Animation -->
+<div class="relative z-10 flex flex-col items-center">
+<!-- Luminescent Loading Core -->
+<div class="relative w-32 h-32 flex items-center justify-center">
+<!-- Pulsing Outer Rings -->
+<div class="absolute inset-0 rounded-full border border-primary/30 animate-[pulse-ring_3s_infinite]"></div>
+<div class="absolute inset-0 rounded-full border border-primary/20 animate-[pulse-ring_3s_infinite_1s]"></div>
+<!-- Inner Rotating Orb -->
+<div class="relative w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary-container shadow-[0_0_40px_rgba(197,253,93,0.4)] flex items-center justify-center animate-[float_4s_ease-in-out_infinite]">
+<span class="material-symbols-outlined text-on-primary-container text-3xl" style="font-variation-settings: 'FILL' 1;">dataset</span>
+</div>
+</div>
+<!-- Content -->
+<div class="mt-12 text-center max-w-md px-6">
+<h1 class="text-3xl font-headline font-semibold tracking-tight text-on-surface mb-3">
+                    Analyzing website<span class="text-primary">...</span>
+</h1>
+<p class="text-on-surface-variant font-body text-base leading-relaxed tracking-wide opacity-80">
+                    extracting data and generating insights
+                </p>
+<!-- Progress Indicator (Minimalist) -->
+<div class="mt-8 w-48 h-[2px] bg-surface-container-highest rounded-full overflow-hidden mx-auto">
+<div class="h-full bg-primary w-1/3 rounded-full animate-[loading_2s_infinite_ease-in-out]"></div>
+</div>
+</div>
+</div>
+<!-- Decorative Floating Elements (Asymmetric) -->
+<div class="absolute top-1/4 right-1/4 opacity-10 blur-sm pointer-events-none">
+<span class="material-symbols-outlined text-primary text-9xl">analytics</span>
+</div>
+<div class="absolute bottom-1/4 left-1/3 opacity-5 blur-md pointer-events-none">
+<span class="material-symbols-outlined text-primary text-[200px]">language</span>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 border-t border-[#1c2116] bg-[#0b0f08] z-50">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 gap-6">
+<div class="font-plus-jakarta-sans text-xs uppercase tracking-widest text-[#a9ada0]">
+                © 2024 AuraAudit AI. All rights reserved.
+            </div>
+<div class="flex gap-8">
+<a class="font-plus-jakarta-sans text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors" href="#">Privacy Policy</a>
+<a class="font-plus-jakarta-sans text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors" href="#">Terms of Service</a>
+<a class="font-plus-jakarta-sans text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors" href="#">Cookie Policy</a>
+</div>
+</div>
+</footer>
+<style>
+        @keyframes loading {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+</body></html>

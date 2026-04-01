@@ -1,0 +1,43 @@
+.hero-bg {
+  position: relative;
+  background: radial-gradient(circle at 50% -20%, #1a2408 0%, #0b0f08 70%);
+  background-image:
+    linear-gradient(to right, rgba(197, 253, 93, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(197, 253, 93, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 50% -20%, #1a2408 0%, #0b0f08 70%);
+  background-size: 60px 60px, 60px 60px, 100% 100%;
+  overflow: hidden;
+}
+
+.glass-card {
+  background: rgba(34, 40, 28, 0.4);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(197, 253, 93, 0.1);
+}
+
+.curved-transition {
+  position: relative;
+  height: 320px;
+  width: 100%;
+  overflow: hidden;
+  margin-top: -160px;
+  z-index: 10;
+}
+
+.curve-shape {
+  position: absolute;
+  top: 160px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200%;
+  height: 1000px;
+  background: #0b0f08;
+  border-radius: 50% 50% 0 0;
+  box-shadow: 0 -40px 100px rgba(199, 255, 95, 0.3);
+}
+
+.solid-section {
+  background-color: #0b0f08;
+  position: relative;
+  z-index: 20;
+}

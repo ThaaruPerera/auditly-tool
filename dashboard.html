@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AuraAudit | Comprehensive Results Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-tint": "#c5fd5d",
+                        "on-primary-container": "#192700",
+                        "on-primary": "#426000",
+                        "secondary-container": "#5e6300",
+                        "on-secondary-fixed-variant": "#5b6000",
+                        "surface": "#0b0f08",
+                        "on-tertiary-container": "#5f5600",
+                        "on-surface": "#f2f5e7",
+                        "error-container": "#b92902",
+                        "inverse-primary": "#496800",
+                        "surface-container-highest": "#22281c",
+                        "surface-variant": "#22281c",
+                        "error": "#ff7351",
+                        "background": "#0b0f08",
+                        "tertiary-fixed-dim": "#eedc47",
+                        "primary-dim": "#b8ee50",
+                        "primary-fixed": "#c5fd5d",
+                        "inverse-surface": "#f7fbec",
+                        "surface-container-low": "#10150c",
+                        "secondary-fixed": "#e3eb5d",
+                        "inverse-on-surface": "#52574c",
+                        "on-surface-variant": "#a9ada0",
+                        "primary-fixed-dim": "#b8ee50",
+                        "secondary-fixed-dim": "#d5dc50",
+                        "error-dim": "#d53d18",
+                        "tertiary-container": "#fdeb54",
+                        "on-secondary": "#515600",
+                        "surface-container-high": "#1c2116",
+                        "on-error-container": "#ffd2c8",
+                        "primary": "#c5fd5d",
+                        "on-primary-fixed-variant": "#4a6a00",
+                        "surface-container": "#161b11",
+                        "tertiary-fixed": "#fdeb54",
+                        "on-tertiary-fixed": "#4b4400",
+                        "secondary": "#e3eb5d",
+                        "on-secondary-fixed": "#3f4200",
+                        "tertiary-dim": "#eedc47",
+                        "secondary-dim": "#d5dc50",
+                        "surface-bright": "#282e21",
+                        "on-error": "#450900",
+                        "on-background": "#f2f5e7",
+                        "surface-dim": "#0b0f08",
+                        "on-tertiary": "#685e00",
+                        "on-primary-fixed": "#344c00",
+                        "primary-container": "#7eb00a",
+                        "on-tertiary-fixed-variant": "#6a6000",
+                        "surface-container-lowest": "#000000",
+                        "tertiary": "#fff7d0",
+                        "outline-variant": "#45493f",
+                        "outline": "#73776b",
+                        "on-secondary-container": "#f9ff8a"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-panel {
+            background: rgba(34, 40, 28, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .aurora-glow {
+            background: radial-gradient(circle at center, rgba(197, 253, 93, 0.15) 0%, transparent 70%);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0b0f08]/80 backdrop-blur-xl shadow-[0_20px_50px_rgba(73,104,0,0.08)]">
+<div class="flex justify-between items-center px-8 py-4 max-w-full mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-[#f2f5e7]">AuraAudit</div>
+<nav class="hidden md:flex items-center gap-8 font-plus-jakarta-sans text-sm tracking-tight">
+<a class="text-[#c5fd5d] font-semibold border-b-2 border-[#c5fd5d] pb-1" href="#">Dashboard</a>
+<a class="text-[#a9ada0] hover:text-[#f2f5e7] hover:bg-[#c5fd5d]/10 transition-colors duration-300 px-3 py-1 rounded-md" href="#">History</a>
+<a class="text-[#a9ada0] hover:text-[#f2f5e7] hover:bg-[#c5fd5d]/10 transition-colors duration-300 px-3 py-1 rounded-md" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden md:block text-[#a9ada0] text-sm hover:text-[#f2f5e7] transition-colors">Login</button>
+<button class="bg-primary text-on-primary-container px-6 py-2 rounded-full font-bold text-sm active:scale-95 transform transition-all shadow-[0_0_20px_rgba(197,253,93,0.3)]">Analyze</button>
+</div>
+</div>
+<div class="bg-gradient-to-b from-[#1c2116] to-transparent h-[1px]"></div>
+</header>
+<main class="pt-24 pb-20 px-6 lg:px-12 max-w-screen-2xl mx-auto">
+<!-- Header Section -->
+<div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<span class="text-primary font-label text-xs uppercase tracking-[0.2em] mb-3 block">Analysis Complete</span>
+<h1 class="text-4xl md:text-5xl font-extrabold tracking-tighter text-on-surface mb-2">Audit Dashboard</h1>
+<p class="text-on-surface-variant max-w-xl">Comprehensive evaluation of content integrity, SEO optimization, and messaging clarity powered by AuraAudit AI.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 bg-surface-container-high border border-outline-variant/20 px-5 py-3 rounded-xl text-sm font-semibold hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm">download</span> Export PDF
+                </button>
+<button class="flex items-center gap-2 bg-surface-container-high border border-outline-variant/20 px-5 py-3 rounded-xl text-sm font-semibold hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm">share</span> Share Report
+                </button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Main Content Area (8 Columns) -->
+<div class="lg:col-span-8 space-y-12">
+<!-- 1. Factual Metrics Panel -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">analytics</span>
+<h2 class="text-xl font-bold tracking-tight">Factual Metrics</h2>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Metric Card -->
+<div class="glass-panel p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
+<span class="material-symbols-outlined text-on-surface-variant mb-4" style="font-size: 20px;">description</span>
+<div class="text-3xl font-bold mb-1 text-on-surface">1,284</div>
+<div class="text-xs text-on-surface-variant font-medium uppercase tracking-wider">Word Count</div>
+</div>
+<!-- Metric Card -->
+<div class="glass-panel p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
+<span class="material-symbols-outlined text-on-surface-variant mb-4" style="font-size: 20px;">format_h1</span>
+<div class="text-3xl font-bold mb-1 text-on-surface">14</div>
+<div class="text-xs text-on-surface-variant font-medium uppercase tracking-wider">Heading Count</div>
+</div>
+<!-- Metric Card -->
+<div class="glass-panel p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
+<span class="material-symbols-outlined text-on-surface-variant mb-4" style="font-size: 20px;">ads_click</span>
+<div class="text-3xl font-bold mb-1 text-on-surface">06</div>
+<div class="text-xs text-on-surface-variant font-medium uppercase tracking-wider">CTA Count</div>
+</div>
+<!-- Metric Card -->
+<div class="glass-panel p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
+<span class="material-symbols-outlined text-on-surface-variant mb-4" style="font-size: 20px;">timer</span>
+<div class="text-3xl font-bold mb-1 text-on-surface">5.2m</div>
+<div class="text-xs text-on-surface-variant font-medium uppercase tracking-wider">Reading Time</div>
+</div>
+</div>
+</section>
+<!-- 2. AI Insights Section -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<h2 class="text-xl font-bold tracking-tight">AI Content Insights</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Insight Card: SEO -->
+<div class="bg-surface-container-high p-8 rounded-2xl border border-outline-variant/10 relative overflow-hidden group">
+<div class="absolute -right-8 -top-8 w-32 h-32 aurora-glow rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+<h3 class="text-lg font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-size: 18px;">search</span>
+                                SEO Structure
+                            </h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+                                Your keyword density for <span class="text-on-surface font-semibold">"Autonomous Analytics"</span> is optimal (1.2%), but meta-description length exceeds the recommended 160 characters.
+                            </p>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Optimized</span>
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant text-[10px] font-bold rounded-full uppercase tracking-widest">Technical</span>
+</div>
+</div>
+<!-- Insight Card: Clarity -->
+<div class="bg-surface-container-high p-8 rounded-2xl border border-outline-variant/10 relative overflow-hidden group">
+<div class="absolute -right-8 -top-8 w-32 h-32 aurora-glow rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+<h3 class="text-lg font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-size: 18px;">campaign</span>
+                                Messaging Clarity
+                            </h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+                                The <span class="text-on-surface font-semibold">Value Proposition</span> is strong in the first 300 words. However, the closing paragraph uses passive voice, reducing the urgency of the CTA.
+                            </p>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">Actionable</span>
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant text-[10px] font-bold rounded-full uppercase tracking-widest">Editorial</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Recommendations Section -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">checklist</span>
+<h2 class="text-xl font-bold tracking-tight">Critical Recommendations</h2>
+</div>
+<div class="space-y-4">
+<!-- Recommendation: High -->
+<div class="bg-surface-container-low p-6 rounded-2xl flex items-start gap-6 border-l-4 border-error group hover:bg-surface-container transition-colors">
+<div class="mt-1">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">error</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-on-surface">Broken Hyperlinks Found</h4>
+<span class="text-[10px] font-bold text-error uppercase tracking-widest bg-error/10 px-2 py-0.5 rounded">High Priority</span>
+</div>
+<p class="text-sm text-on-surface-variant">Three outbound links in the footer return 404 errors. This significantly impacts your SEO crawlability and user trust score.</p>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</button>
+</div>
+<!-- Recommendation: Medium -->
+<div class="bg-surface-container-low p-6 rounded-2xl flex items-start gap-6 border-l-4 border-[#eedc47] group hover:bg-surface-container transition-colors">
+<div class="mt-1">
+<span class="material-symbols-outlined text-[#eedc47]" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-on-surface">Alt Text Missing</h4>
+<span class="text-[10px] font-bold text-[#eedc47] uppercase tracking-widest bg-[#eedc47]/10 px-2 py-0.5 rounded">Medium Priority</span>
+</div>
+<p class="text-sm text-on-surface-variant">50% of the images in the hero section lack descriptive alt text. Update these to improve accessibility compliance (WCAG 2.1).</p>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</button>
+</div>
+<!-- Recommendation: Low -->
+<div class="bg-surface-container-low p-6 rounded-2xl flex items-start gap-6 border-l-4 border-primary group hover:bg-surface-container transition-colors">
+<div class="mt-1">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">info</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-on-surface">Heading Hierarchy</h4>
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded">Low Priority</span>
+</div>
+<p class="text-sm text-on-surface-variant">Consider switching the H3 tags in the feature grid to H2 for a more logical semantic structure. Purely for architectural cleanup.</p>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Sidebar Panel (4 Columns) -->
+<aside class="lg:col-span-4 space-y-8">
+<!-- Scan Summary Card -->
+<div class="glass-panel p-8 rounded-3xl border border-outline-variant/10 shadow-xl relative overflow-hidden">
+<div class="absolute -right-16 -bottom-16 w-48 h-48 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="text-center mb-8 relative">
+<div class="inline-flex items-center justify-center w-32 h-32 rounded-full border-4 border-primary/20 p-2 mb-4">
+<div class="w-full h-full rounded-full bg-surface-container-highest flex flex-col items-center justify-center border-4 border-primary shadow-[0_0_30px_rgba(197,253,93,0.2)]">
+<span class="text-4xl font-black text-on-surface leading-none">98</span>
+<span class="text-[10px] font-bold text-primary-container uppercase tracking-tighter">Score</span>
+</div>
+</div>
+<h3 class="text-xl font-extrabold tracking-tight">Audit Summary</h3>
+<p class="text-xs text-on-surface-variant mt-1 uppercase tracking-[0.1em]">Exceptional Performance</p>
+</div>
+<div class="space-y-6">
+<div class="space-y-1">
+<label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Target URL</label>
+<p class="text-sm font-mono text-primary truncate">https://aura-audit-ai.app/cloud-infra</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Scan Date</label>
+<p class="text-sm font-semibold">Oct 24, 2024</p>
+</div>
+<div class="space-y-1 text-right">
+<label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Version</label>
+<p class="text-sm font-semibold">v4.2.0-Alpha</p>
+</div>
+</div>
+<div class="pt-6 border-t border-outline-variant/10">
+<img class="w-full h-32 object-cover rounded-xl border border-outline-variant/20 grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer" data-alt="A clean, dark interface screenshot of a high-tech website analysis tool with glowing data visualizations and charts" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZMXyAZ15D20HcxQFASRR7z3ZoOWX7Lipb6Gk7kz6j3AYjdEDnvD_jCSNp1d1gSVGNw5cFjcQa6cKV8Cgcc80QJV_R5j3NdHUCGYnQ4n8Hqg0THthlqYho0ViPn74wZgJNulml6pUqHKCPKZPNQE6XK5pPX8_0N7tjMJrjqIgV643-t76DPAXeBF7EqWXYzOsSTqfRZRqmPUQeG-cs5YSQVLdqJWuL6tfDJuMGjkCJh_blclRQ3dAqOXbg2gEeuRrdTfExLH0m2Ls"/>
+<p class="text-[10px] text-center text-on-surface-variant mt-3 italic">Visual scan snapshot generated via headless browser</p>
+</div>
+<button class="w-full py-4 bg-primary text-on-primary-container rounded-2xl font-bold text-sm hover:shadow-[0_0_20px_rgba(197,253,93,0.2)] transition-shadow">Rerun Analysis</button>
+</div>
+</div>
+<!-- Recent Activity/History (Bento Mini) -->
+<div class="space-y-4">
+<h4 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant px-2">History</h4>
+<div class="space-y-2">
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/5 flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-variant flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">language</span>
+</div>
+<div class="flex-grow overflow-hidden">
+<p class="text-xs font-bold text-on-surface truncate">marketing-ops-site.io</p>
+<p class="text-[10px] text-on-surface-variant">Yesterday • Score: 84</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/5 flex items-center gap-4 opacity-60">
+<div class="w-10 h-10 rounded-lg bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">language</span>
+</div>
+<div class="flex-grow overflow-hidden">
+<p class="text-xs font-bold text-on-surface truncate">saas-landing-page.com</p>
+<p class="text-[10px] text-on-surface-variant">2 days ago • Score: 92</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 border-t border-[#1c2116] bg-[#0b0f08]">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 gap-6">
+<div class="font-plus-jakarta-sans text-xs uppercase tracking-widest text-[#a9ada0]">
+                © 2024 AuraAudit AI. All rights reserved.
+            </div>
+<div class="flex gap-8">
+<a class="font-plus-jakarta-sans text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors" href="#">Privacy Policy</a>
+<a class="font-plus-jakarta-sans text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors" href="#">Terms of Service</a>
+<a class="font-plus-jakarta-sans text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors" href="#">Cookie Policy</a>
+</div>
+</div>
+</footer>
+</body></html>
