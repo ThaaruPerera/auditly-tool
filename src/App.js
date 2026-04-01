@@ -6,6 +6,7 @@ import AnalysisPage from "./pages/AnalysisPage";
 import HistoryPage from "./pages/HistoryPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import SharedReportPage from "./pages/SharedReportPage";
 import ProfileCorner from "./components/ProfileCorner";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicOnlyRoute from "./components/PublicOnlyRoute";
@@ -34,19 +35,11 @@ function App() {
         />
         <Route
           path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
+          element={<DashboardPage />}
         />
         <Route
           path="/analysis"
-          element={
-            <ProtectedRoute>
-              <AnalysisPage />
-            </ProtectedRoute>
-          }
+          element={<AnalysisPage />}
         />
         <Route
           path="/history"
@@ -56,6 +49,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/shared/:shareId" element={<SharedReportPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

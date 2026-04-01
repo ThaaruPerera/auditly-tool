@@ -7,24 +7,40 @@ import "../styles/auth.css";
 function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { login } = useAuth();
+  const { login, signInWithGoogle } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const redirectTo = location.state?.from || "/dashboard";
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
 
-    const loginResult = login({ email, password });
+    const loginResult = await login({ email, password });
 
     if (!loginResult.ok) {
       setError(loginResult.error);
+      setIsSubmitting(false);
       return;
     }
 
     setError("");
+    setIsSubmitting(false);
     navigate(redirectTo, { replace: true });
+  };
+
+  const handleGoogleLogin = async () => {
+    setError("");
+    setIsSubmitting(true);
+
+    const loginResult = await signInWithGoogle(redirectTo);
+
+    if (!loginResult.ok) {
+      setError(loginResult.error);
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -46,6 +62,20 @@ function LoginPage() {
         <div className="auth-card">
           <h1>Login to Auditly</h1>
           <p>Securely access your account and resume audits.</p>
+
+          <button
+            type="button"
+            className="auth-google-button"
+            disabled={isSubmitting}
+            onClick={handleGoogleLogin}
+          >
+            <span className="auth-google-icon" aria-hidden="true">G</span>
+            Continue with Google
+          </button>
+
+          <div className="auth-divider">
+            <span>or continue with email</span>
+          </div>
 
           <form onSubmit={handleSubmit} className="auth-form">
             <label>
@@ -72,13 +102,13 @@ function LoginPage() {
 
             {error && <div className="auth-error">{error}</div>}
 
-            <button type="submit" className="auth-button">
-              Login
+            <button type="submit" className="auth-button" disabled={isSubmitting}>
+              {isSubmitting ? "Logging in..." : "Login"}
             </button>
           </form>
 
           <p className="auth-footer">
-            Don’t have an account? <Link to="/signup">Sign up</Link>
+            Don’t have an account? <Link to="/signup" state={location.state}>Sign up</Link>
           </p>
         </div>
       </main>

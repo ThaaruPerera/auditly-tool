@@ -1,26 +1,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { isSupabaseConfigured, supabase } from "../lib/supabase";
 
 const AuthContext = createContext(null);
-const USER_STORAGE_KEY = "auditlyUser";
-const ACCOUNT_STORAGE_KEY = "auditlyAccounts";
-
-function safeReadJson(key, fallbackValue) {
-  try {
-    const rawValue = localStorage.getItem(key);
-
-    if (!rawValue) {
-      return fallbackValue;
-    }
-
-    return JSON.parse(rawValue);
-  } catch (error) {
-    return fallbackValue;
-  }
-}
-
-function safeWriteJson(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
 
 function deriveNameFromEmail(email) {
   const localPart = (email || "").split("@")[0].replace(/[._-]+/g, " ").trim();
@@ -41,114 +22,127 @@ function normalizeUser(user) {
     return null;
   }
 
+  const id = (user.id || "").trim();
   const email = (user.email || "").trim().toLowerCase();
   const name = (user.name || "").trim() || deriveNameFromEmail(email);
+  const avatarUrl = (user.avatarUrl || "").trim();
 
-  if (!email) {
+  if (!id || !email) {
     return null;
   }
 
-  return { name, email };
+  return { avatarUrl, id, name, email };
 }
 
-function normalizeAccount(account) {
-  if (!account || typeof account !== "object") {
+function mapSupabaseUser(sessionUser) {
+  if (!sessionUser) {
     return null;
   }
 
-  const normalizedUser = normalizeUser(account);
-  const password = (account.password || "").trim();
-
-  if (!normalizedUser || !password) {
-    return null;
-  }
-
-  return { ...normalizedUser, password };
-}
-
-function readStoredUser() {
-  return normalizeUser(safeReadJson(USER_STORAGE_KEY, null));
-}
-
-function readStoredAccounts() {
-  const rawAccounts = safeReadJson(ACCOUNT_STORAGE_KEY, []);
-
-  if (!Array.isArray(rawAccounts)) {
-    return [];
-  }
-
-  return rawAccounts.map(normalizeAccount).filter(Boolean);
+  return normalizeUser({
+    id: sessionUser.id,
+    email: sessionUser.email,
+    name:
+      sessionUser.user_metadata?.full_name ||
+      sessionUser.user_metadata?.name ||
+      deriveNameFromEmail(sessionUser.email),
+    avatarUrl:
+      sessionUser.user_metadata?.avatar_url ||
+      sessionUser.user_metadata?.picture ||
+      ""
+  });
 }
 
 function AuthProvider({ children }) {
   const [user, setUserState] = useState(null);
-  const [accounts, setAccountsState] = useState([]);
+  const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
-    setUserState(readStoredUser());
-    setAccountsState(readStoredAccounts());
-  }, []);
+    let isMounted = true;
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setUserState(readStoredUser());
-      setAccountsState(readStoredAccounts());
-    };
+    if (!isSupabaseConfigured || !supabase) {
+      setAuthLoading(false);
+      return undefined;
+    }
 
-    window.addEventListener("storage", handleStorageChange);
+    supabase.auth.getSession().then(({ data, error }) => {
+      if (!isMounted) {
+        return;
+      }
+
+      if (error) {
+        console.error("Unable to restore Supabase session.", error);
+        setUserState(null);
+      } else {
+        setUserState(mapSupabaseUser(data.session?.user || null));
+      }
+
+      setAuthLoading(false);
+    });
+
+    const {
+      data: { subscription }
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!isMounted) {
+        return;
+      }
+
+      setUserState(mapSupabaseUser(session?.user || null));
+      setAuthLoading(false);
+    });
 
     return () => {
-      window.removeEventListener("storage", handleStorageChange);
+      isMounted = false;
+      subscription.unsubscribe();
     };
   }, []);
 
   const setUser = (nextUser) => {
-    const normalizedUser = normalizeUser(nextUser);
-
-    if (!normalizedUser) {
-      localStorage.removeItem(USER_STORAGE_KEY);
-      setUserState(null);
-      return;
-    }
-
-    safeWriteJson(USER_STORAGE_KEY, normalizedUser);
-    setUserState(normalizedUser);
+    setUserState(normalizeUser(nextUser));
   };
 
-  const signUp = ({ email, name, password }) => {
-    const normalizedAccount = normalizeAccount({ email, name, password });
+  const signUp = async ({ email, name, password }) => {
+    const normalizedEmail = (email || "").trim().toLowerCase();
+    const normalizedName = (name || "").trim();
+    const normalizedPassword = (password || "").trim();
 
-    if (!normalizedAccount) {
+    if (!normalizedEmail || !normalizedName || !normalizedPassword) {
       return { ok: false, error: "Please complete all signup fields." };
     }
 
-    if (normalizedAccount.password.length < 6) {
+    if (normalizedPassword.length < 6) {
       return { ok: false, error: "Password must be at least 6 characters." };
     }
 
-    const existingAccount = accounts.find(
-      (account) => account.email === normalizedAccount.email
-    );
-
-    if (existingAccount) {
-      return { ok: false, error: "An account already exists for this email." };
+    if (!isSupabaseConfigured || !supabase) {
+      return {
+        ok: false,
+        error: "Supabase is not configured yet. Add REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY."
+      };
     }
 
-    const nextAccounts = [...accounts, normalizedAccount];
-
-    safeWriteJson(ACCOUNT_STORAGE_KEY, nextAccounts);
-    safeWriteJson(USER_STORAGE_KEY, {
-      email: normalizedAccount.email,
-      name: normalizedAccount.name
+    const { data, error } = await supabase.auth.signUp({
+      email: normalizedEmail,
+      password: normalizedPassword,
+      options: {
+        data: {
+          full_name: normalizedName
+        }
+      }
     });
 
-    setAccountsState(nextAccounts);
-    setUserState({ email: normalizedAccount.email, name: normalizedAccount.name });
+    if (error) {
+      return { ok: false, error: error.message };
+    }
+
+    if (data.session?.user) {
+      setUserState(mapSupabaseUser(data.session.user));
+    }
 
     return { ok: true };
   };
 
-  const login = ({ email, password }) => {
+  const login = async ({ email, password }) => {
     const normalizedEmail = (email || "").trim().toLowerCase();
     const normalizedPassword = (password || "").trim();
 
@@ -156,42 +150,76 @@ function AuthProvider({ children }) {
       return { ok: false, error: "Please enter both email and password." };
     }
 
-    const matchedAccount = accounts.find((account) => account.email === normalizedEmail);
-
-    if (!matchedAccount) {
-      return { ok: false, error: "No account found for this email." };
+    if (!isSupabaseConfigured || !supabase) {
+      return {
+        ok: false,
+        error: "Supabase is not configured yet. Add REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY."
+      };
     }
 
-    if (matchedAccount.password !== normalizedPassword) {
-      return { ok: false, error: "Incorrect password." };
-    }
-
-    safeWriteJson(USER_STORAGE_KEY, {
-      email: matchedAccount.email,
-      name: matchedAccount.name
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: normalizedEmail,
+      password: normalizedPassword
     });
 
-    setUserState({ email: matchedAccount.email, name: matchedAccount.name });
+    if (error) {
+      return { ok: false, error: error.message };
+    }
+
+    setUserState(mapSupabaseUser(data.user));
 
     return { ok: true };
   };
 
-  const logout = () => {
-    localStorage.removeItem(USER_STORAGE_KEY);
+  const signInWithGoogle = async (redirectPath = "/dashboard") => {
+    if (!isSupabaseConfigured || !supabase) {
+      return {
+        ok: false,
+        error: "Supabase is not configured yet. Add REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY."
+      };
+    }
+
+    const redirectTo = new URL(redirectPath, window.location.origin).toString();
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo
+      }
+    });
+
+    if (error) {
+      return { ok: false, error: error.message };
+    }
+
+    return { ok: true };
+  };
+
+  const logout = async () => {
+    if (supabase) {
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        return { ok: false, error: error.message };
+      }
+    }
+
     setUserState(null);
+    return { ok: true };
   };
 
   const value = useMemo(
     () => ({
       user,
-      accounts,
+      accounts: [],
+      authLoading,
       isAuthenticated: Boolean(user),
       setUser,
       signUp,
       login,
+      signInWithGoogle,
       logout
     }),
-    [accounts, user]
+    [authLoading, user]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import AppFooter from "../components/AppFooter";
 import PlaceholderButton from "../components/PlaceholderButton";
-import PlaceholderLink from "../components/PlaceholderLink";
 import SiteHeader from "../components/SiteHeader";
 import { useAnalysis } from "../context/AnalysisContext";
 import "../styles/history.css";
@@ -42,7 +42,7 @@ function getScoreTone(score) {
 
 function HistoryPage() {
   const navigate = useNavigate();
-  const { historyRecords, loadHistoryRecord } = useAnalysis();
+  const { historyError, historyLoading, historyRecords, loadHistoryRecord } = useAnalysis();
 
   const handleViewReport = (recordId) => {
     const didLoad = loadHistoryRecord(recordId);
@@ -53,7 +53,7 @@ function HistoryPage() {
   };
 
   return (
-    <div className="history-page bg-background text-on-surface min-h-screen aurora-glow selection:bg-primary/30">
+    <div className="history-page bg-background text-on-surface min-h-screen flex flex-col aurora-glow selection:bg-primary/30">
       <SiteHeader
         navItems={[
           { label: "Home", to: "/" },
@@ -68,7 +68,7 @@ function HistoryPage() {
         ctaClassName="bg-primary text-on-primary-container min-h-[38px] px-6 rounded-full font-bold scale-95 active:scale-90 transition-transform"
       />
 
-      <main className="relative pt-32 pb-20 px-6 lg:px-12 max-w-screen-2xl mx-auto">
+      <main className="relative flex-1 pt-32 pb-20 px-6 lg:px-12 max-w-screen-2xl mx-auto w-full">
         <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <span className="text-primary font-label text-xs uppercase tracking-[0.2em] mb-3 block">Audit Archive</span>
@@ -96,7 +96,27 @@ function HistoryPage() {
               <h2 className="text-xl font-bold tracking-tight">Saved Reports</h2>
             </div>
             <div className="glass-panel overflow-hidden rounded-3xl border border-outline-variant/10 shadow-xl">
-            {historyRecords.length === 0 ? (
+            {historyLoading ? (
+              <div className="px-8 py-20 text-center">
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-surface-container-high text-primary">
+                  <span className="material-symbols-outlined text-3xl">cloud_sync</span>
+                </div>
+                <h2 className="text-2xl font-bold mb-3">Loading cloud history</h2>
+                <p className="text-on-surface-variant max-w-md mx-auto leading-relaxed">
+                  Pulling your saved audits from Supabase now.
+                </p>
+              </div>
+            ) : historyError ? (
+              <div className="px-8 py-20 text-center">
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-surface-container-high text-error">
+                  <span className="material-symbols-outlined text-3xl">cloud_off</span>
+                </div>
+                <h2 className="text-2xl font-bold mb-3">Cloud history unavailable</h2>
+                <p className="text-on-surface-variant max-w-md mx-auto leading-relaxed">
+                  {historyError}
+                </p>
+              </div>
+            ) : historyRecords.length === 0 ? (
               <div className="px-8 py-20 text-center">
                 <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-surface-container-high text-primary">
                   <span className="material-symbols-outlined text-3xl">history</span>
@@ -191,7 +211,7 @@ function HistoryPage() {
                     Showing {historyRecords.length} saved {historyRecords.length === 1 ? "result" : "results"}
                   </div>
                   <div className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">
-                    Connected to your account
+                    Synced with cloud history
                   </div>
                 </div>
               </>
@@ -201,24 +221,7 @@ function HistoryPage() {
         </div>
       </main>
 
-      <footer className="w-full py-12 border-t border-[#1c2116] bg-[#0b0f08]">
-        <div className="flex flex-col md:flex-row justify-between items-center px-12 gap-6">
-          <div className="font-['Product_Sans'] text-xs uppercase tracking-widest text-[#a9ada0] opacity-80">
-            © 2026 Auditly. All rights reserved.
-          </div>
-          <div className="flex gap-8">
-            <PlaceholderLink className="font-['Product_Sans'] text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors">
-              Privacy Policy
-            </PlaceholderLink>
-            <PlaceholderLink className="font-['Product_Sans'] text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors">
-              Terms of Service
-            </PlaceholderLink>
-            <PlaceholderLink className="font-['Product_Sans'] text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors">
-              Cookie Policy
-            </PlaceholderLink>
-          </div>
-        </div>
-      </footer>
+      <AppFooter className="bg-[#0b0f08]" borderClassName="border-[#1c2116]" textClassName="text-[#a9ada0]" linkHoverClassName="hover:text-[#c5fd5d]" />
     </div>
   );
 }

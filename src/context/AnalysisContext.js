@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useAuth } from "./AuthContext";
+import { isSupabaseConfigured, supabase } from "../lib/supabase";
 
 const CTA_PATTERNS = [
   "get started",
@@ -18,53 +19,99 @@ const CTA_PATTERNS = [
 ];
 
 const AnalysisContext = createContext(null);
-const HISTORY_STORAGE_KEY = "auditlyHistory";
-
-function safeReadJson(key, fallbackValue) {
-  try {
-    const rawValue = localStorage.getItem(key);
-    return rawValue ? JSON.parse(rawValue) : fallbackValue;
-  } catch (error) {
-    return fallbackValue;
-  }
-}
-
-function safeWriteJson(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
-
-function readHistoryMap() {
-  const historyMap = safeReadJson(HISTORY_STORAGE_KEY, {});
-  return historyMap && typeof historyMap === "object" ? historyMap : {};
-}
-
-function readHistoryForUser(email) {
-  if (!email) {
-    return [];
-  }
-
-  const historyMap = readHistoryMap();
-  const entries = historyMap[email];
-  return Array.isArray(entries) ? entries : [];
-}
-
-function writeHistoryForUser(email, entries) {
-  if (!email) {
-    return;
-  }
-
-  const historyMap = readHistoryMap();
-  historyMap[email] = entries;
-  safeWriteJson(HISTORY_STORAGE_KEY, historyMap);
-}
 
 function createHistoryRecord(url, extractedMetrics) {
   return {
-    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     url,
-    createdAt: new Date().toISOString(),
     metrics: extractedMetrics
   };
+}
+
+function mapHistoryRow(row) {
+  if (!row) {
+    return null;
+  }
+
+  return {
+    id: row.id,
+    url: row.url,
+    createdAt: row.created_at,
+    metrics: row.metrics
+  };
+}
+
+function createShareId() {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+
+  return `share-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+async function fetchHistoryForUser(userId) {
+  if (!userId || !isSupabaseConfigured || !supabase) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from("analysis_history")
+    .select("id, url, metrics, created_at")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(50);
+
+  if (error) {
+    throw error;
+  }
+
+  return (data || []).map(mapHistoryRow).filter(Boolean);
+}
+
+async function saveHistoryForUser(userId, record) {
+  if (!userId || !isSupabaseConfigured || !supabase) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from("analysis_history")
+    .insert({
+      user_id: userId,
+      url: record.url,
+      metrics: record.metrics
+    })
+    .select("id, url, metrics, created_at")
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return mapHistoryRow(data);
+}
+
+async function createPublicShareForUser(userId, ownerName, record) {
+  if (!userId || !isSupabaseConfigured || !supabase) {
+    throw new Error("Public sharing is not configured yet.");
+  }
+
+  const shareId = createShareId();
+  const { data, error } = await supabase
+    .from("public_report_shares")
+    .insert({
+      share_id: shareId,
+      owner_user_id: userId,
+      owner_name: ownerName || "Auditly User",
+      url: record.url,
+      metrics: record.metrics
+    })
+    .select("share_id")
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data.share_id;
 }
 
 function normalizeUrl(rawUrl) {
@@ -84,7 +131,7 @@ function normalizeUrl(rawUrl) {
 function formatReadingTime(wordCount) {
   const readingTimeMinutes = wordCount / 225;
   const rounded = Math.max(0.1, Math.round(readingTimeMinutes * 10) / 10);
-  return `${rounded.toFixed(1)}m`;
+  return `${rounded.toFixed(1)} min`;
 }
 
 function countCtas(document) {
@@ -642,20 +689,45 @@ export function AnalysisProvider({ children }) {
   const [progress, setProgress] = useState(0);
   const [progressLabel, setProgressLabel] = useState("Waiting to start");
   const [historyRecords, setHistoryRecords] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState("");
+  const [currentReportRecord, setCurrentReportRecord] = useState(null);
 
   useEffect(() => {
-    setHistoryRecords(readHistoryForUser(user?.email));
-  }, [user]);
+    let isMounted = true;
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setHistoryRecords(readHistoryForUser(user?.email));
-    };
+    if (!user?.id) {
+      setHistoryRecords([]);
+      setHistoryLoading(false);
+      setHistoryError("");
+      return undefined;
+    }
 
-    window.addEventListener("storage", handleStorageChange);
+    setHistoryLoading(true);
+    setHistoryError("");
+
+    fetchHistoryForUser(user.id)
+      .then((records) => {
+        if (isMounted) {
+          setHistoryRecords(records);
+          if (currentReportRecord?.id) {
+            const refreshedCurrentRecord = records.find((record) => record.id === currentReportRecord.id) || null;
+            setCurrentReportRecord(refreshedCurrentRecord);
+          }
+          setHistoryLoading(false);
+        }
+      })
+      .catch((loadError) => {
+        console.error("Unable to load analysis history from Supabase.", loadError);
+        if (isMounted) {
+          setHistoryRecords([]);
+          setHistoryLoading(false);
+          setHistoryError("We could not load your cloud history right now.");
+        }
+      });
 
     return () => {
-      window.removeEventListener("storage", handleStorageChange);
+      isMounted = false;
     };
   }, [user]);
 
@@ -671,6 +743,7 @@ export function AnalysisProvider({ children }) {
     setMetrics(null);
     setError("");
     setStatus("loading");
+    setCurrentReportRecord(null);
 
     try {
       const normalizedUrl = normalizeUrl(rawUrl);
@@ -685,13 +758,22 @@ export function AnalysisProvider({ children }) {
       updateProgress(92, "Calculating factual metrics...");
 
       setMetrics(extractedMetrics);
-      if (user?.email) {
-        const nextHistory = [
-          createHistoryRecord(normalizedUrl, extractedMetrics),
-          ...readHistoryForUser(user.email)
-        ].slice(0, 50);
-        writeHistoryForUser(user.email, nextHistory);
-        setHistoryRecords(nextHistory);
+      if (user?.id) {
+        try {
+          const savedRecord = await saveHistoryForUser(
+            user.id,
+            createHistoryRecord(normalizedUrl, extractedMetrics)
+          );
+
+          if (savedRecord) {
+            setHistoryError("");
+            setCurrentReportRecord(savedRecord);
+            setHistoryRecords((currentRecords) => [savedRecord, ...currentRecords].slice(0, 50));
+          }
+        } catch (saveError) {
+          console.error("Unable to save analysis history to Supabase.", saveError);
+          setHistoryError("Analysis finished, but we could not save this report to the cloud.");
+        }
       }
       updateProgress(100, "Analysis complete");
       setStatus("success");
@@ -718,6 +800,7 @@ export function AnalysisProvider({ children }) {
     setError("");
     setProgress(0);
     setProgressLabel("Waiting to start");
+    setCurrentReportRecord(null);
   };
 
   const loadHistoryRecord = (recordId) => {
@@ -729,6 +812,7 @@ export function AnalysisProvider({ children }) {
 
     setCurrentUrl(matchedRecord.url);
     setMetrics(matchedRecord.metrics);
+    setCurrentReportRecord(matchedRecord);
     setError("");
     setProgress(100);
     setProgressLabel("Loaded from history");
@@ -739,8 +823,27 @@ export function AnalysisProvider({ children }) {
   const value = useMemo(
     () => ({
       analyzeUrl,
+      createPublicShare: async () => {
+        if (!currentUrl || !metrics) {
+          throw new Error("Run or load a report before sharing it.");
+        }
+
+        if (!user?.id) {
+          throw new Error("You need an account to share reports.");
+        }
+
+        const shareId = await createPublicShareForUser(user.id, user.name, {
+          url: currentUrl,
+          metrics
+        });
+
+        return `${window.location.origin}/shared/${shareId}`;
+      },
+      currentReportRecord,
       currentUrl,
       error,
+      historyError,
+      historyLoading,
       historyRecords,
       loadHistoryRecord,
       metrics,
@@ -749,7 +852,7 @@ export function AnalysisProvider({ children }) {
       resetAnalysis,
       status
     }),
-    [currentUrl, error, historyRecords, metrics, progress, progressLabel, status]
+    [currentReportRecord, currentUrl, error, historyError, historyLoading, historyRecords, metrics, progress, progressLabel, status, user]
   );
 
   return <AnalysisContext.Provider value={value}>{children}</AnalysisContext.Provider>;

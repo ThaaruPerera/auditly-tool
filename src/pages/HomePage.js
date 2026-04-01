@@ -1,6 +1,5 @@
 import React from "react";
-import Logo from "../components/Logo";
-import PlaceholderLink from "../components/PlaceholderLink";
+import AppFooter from "../components/AppFooter";
 import RouteButton from "../components/RouteButton";
 import SiteHeader from "../components/SiteHeader";
 import UrlAnalysisForm from "../components/UrlAnalysisForm";
@@ -81,7 +80,7 @@ function HomePage() {
             </div>
             <h3 className="text-xl font-bold mb-3">Deep SEO Scan</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed">
-              Uncover hidden technical issues and keyword opportunities with our multi-layered semantic analyzer.
+              Review on-page structure with metrics for headings, metadata, internal links, external links, and content length.
             </p>
           </div>
           <div className="surface-container-high rounded-xl p-8 border border-outline-variant/10 hover:border-primary/20 transition-all duration-500 group relative overflow-hidden">
@@ -96,9 +95,9 @@ function HomePage() {
                 heat_pump
               </span>
             </div>
-            <h3 className="text-xl font-bold mb-3">UX Heatmaps</h3>
+            <h3 className="text-xl font-bold mb-3">Readable Content Metrics</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed">
-              Predict user behavior with AI-generated attention maps that simulate real scrolling and clicking patterns.
+              See practical page signals like word count, CTA count, image coverage, and estimated reading time in one dashboard.
             </p>
           </div>
           <div className="surface-container-high rounded-xl p-8 border border-outline-variant/10 hover:border-primary/20 transition-all duration-500 group relative overflow-hidden">
@@ -115,70 +114,51 @@ function HomePage() {
             </div>
             <h3 className="text-xl font-bold mb-3">Content Intelligence</h3>
             <p className="text-on-surface-variant text-sm leading-relaxed">
-              Optimize readability and engagement scores with real-time suggestions based on current industry benchmarks.
+              Get AI-written insights and prioritized recommendations based on the actual structure and content found on the page.
             </p>
           </div>
         </section>
 
-        <section className="max-w-6xl mx-auto mt-40 rounded-xl overflow-hidden glass-card mx-6">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="p-12 space-y-6">
-              <span className="text-primary text-xs font-bold uppercase tracking-widest">Real-time Performance</span>
-              <h2 className="text-4xl font-headline font-bold">The Luminescent Layer Analysis</h2>
-              <p className="text-on-surface-variant">
-                Our engine doesn't just read code; it interprets visual hierarchy, assessing your design through the lens of modern digital aesthetics.
-              </p>
-              <ul className="space-y-4">
-                <li className="flex items-center gap-3">
-                  <span className="material-symbols-outlined text-primary text-sm">check_circle</span>
-                  <span className="text-sm font-medium">Automatic WCAG Accessibility Check</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="material-symbols-outlined text-primary text-sm">check_circle</span>
-                  <span className="text-sm font-medium">Lighthouse V10 Performance Benchmarks</span>
-                </li>
-              </ul>
-              <RouteButton
-                to="/dashboard"
-                className="bg-surface-variant border border-outline-variant/20 text-on-surface px-6 py-3 rounded-full font-bold text-sm hover:bg-surface-container transition-all"
-              >
-                View Sample Audit
-              </RouteButton>
+        <div className="max-w-6xl mx-auto mt-40 px-6">
+          <section className="rounded-xl overflow-hidden glass-card">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="p-12 space-y-6">
+                <span className="text-primary text-xs font-bold uppercase tracking-widest">Practical Workflow</span>
+                <h2 className="text-4xl font-headline font-bold">Analyze, Save, and Share Reports</h2>
+                <p className="text-on-surface-variant">
+                  Auditly helps you run a website check, review the results in a structured dashboard, save reports to your account, and generate public share links.
+                </p>
+                <ul className="space-y-4">
+                  <li className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-primary text-sm">check_circle</span>
+                    <span className="text-sm font-medium">Cloud-saved report history for signed-in users</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-primary text-sm">check_circle</span>
+                    <span className="text-sm font-medium">Public share links for current audit snapshots</span>
+                  </li>
+                </ul>
+                <RouteButton
+                  to="/dashboard"
+                  className="bg-surface-variant border border-outline-variant/20 text-on-surface px-6 py-3 rounded-full font-bold text-sm hover:bg-surface-container transition-all"
+                >
+                  Open Dashboard
+                </RouteButton>
+              </div>
+              <div className="relative h-full min-h-[400px] overflow-hidden">
+                <img
+                  alt="Dashboard"
+                  className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-40"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSet2JnWX65et1H2p-zn6Qf0g7Ju36vFGkM0dUCqsRv2tISq0Iw8rke6cXCWN_kwOMTRmNaNykqwM8Ujr1g48_Do7lQk3YrZPywEz51C0wge4mfJMO78zY4-3OAu37CAftcuz-0plvFEzN3svaIA8xosMfwSYP__LflVvY5FdnYbaTqA9PIOC6PWNFJNoCCPDOc8-Le48cPqqFHHbKURb1rD5j9eNPsvnbWHW8C7wQE89EHDxa6h4Tt52ZByE2h_kYqXU6NygRUCo"
+                />
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black/80" />
+              </div>
             </div>
-            <div className="relative h-full min-h-[400px] overflow-hidden">
-              <img
-                alt="Dashboard"
-                className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-40"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSet2JnWX65et1H2p-zn6Qf0g7Ju36vFGkM0dUCqsRv2tISq0Iw8rke6cXCWN_kwOMTRmNaNykqwM8Ujr1g48_Do7lQk3YrZPywEz51C0wge4mfJMO78zY4-3OAu37CAftcuz-0plvFEzN3svaIA8xosMfwSYP__LflVvY5FdnYbaTqA9PIOC6PWNFJNoCCPDOc8-Le48cPqqFHHbKURb1rD5j9eNPsvnbWHW8C7wQE89EHDxa6h4Tt52ZByE2h_kYqXU6NygRUCo"
-              />
-              <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black/80" />
-            </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
 
-      <footer className="solid-section w-full py-12 border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <Logo className="w-[96px] text-stone-50 flex-shrink-0" />
-          <div className="flex flex-wrap justify-center gap-8">
-            <PlaceholderLink className="font-['Product_Sans'] text-xs uppercase tracking-widest text-stone-500 hover:text-lime-400 transition-colors opacity-80 hover:opacity-100">
-              Privacy Policy
-            </PlaceholderLink>
-            <PlaceholderLink className="font-['Product_Sans'] text-xs uppercase tracking-widest text-stone-500 hover:text-lime-400 transition-colors opacity-80 hover:opacity-100">
-              Terms of Service
-            </PlaceholderLink>
-            <PlaceholderLink className="font-['Product_Sans'] text-xs uppercase tracking-widest text-stone-500 hover:text-lime-400 transition-colors opacity-80 hover:opacity-100">
-              Documentation
-            </PlaceholderLink>
-            <PlaceholderLink className="font-['Product_Sans'] text-xs uppercase tracking-widest text-stone-500 hover:text-lime-400 transition-colors opacity-80 hover:opacity-100">
-              Status
-            </PlaceholderLink>
-          </div>
-          <p className="font-['Product_Sans'] text-xs uppercase tracking-widest text-stone-500">
-            © 2026 Auditly. The Digital Aurora Experience.
-          </p>
-        </div>
-      </footer>
+      <AppFooter className="solid-section" />
     </div>
   );
 }

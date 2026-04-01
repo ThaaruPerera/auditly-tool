@@ -1,11 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import auditlyLogo from "../assets/auditly.svg";
 import { useNavigate } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import PlaceholderButton from "../components/PlaceholderButton";
-import PlaceholderLink from "../components/PlaceholderLink";
+import AppFooter from "../components/AppFooter";
 import SiteHeader from "../components/SiteHeader";
 import { useAnalysis } from "../context/AnalysisContext";
+import { useAuth } from "../context/AuthContext";
 import "../styles/analysis.css";
 import "../styles/dashboard.css";
 
@@ -102,6 +103,38 @@ function drawWrappedText(pdf, text, x, y, maxWidth, lineHeight) {
   const lines = pdf.splitTextToSize(text || "", maxWidth);
   pdf.text(lines, x, y);
   return y + lines.length * lineHeight;
+}
+
+function getDomainLabel(url) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch (error) {
+    return url;
+  }
+}
+
+function formatRelativeHistoryDate(isoDate) {
+  const targetDate = new Date(isoDate);
+  const now = new Date();
+  const diffMs = now.getTime() - targetDate.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffDays <= 0) {
+    return "Today";
+  }
+
+  if (diffDays === 1) {
+    return "Yesterday";
+  }
+
+  if (diffDays < 7) {
+    return `${diffDays} days ago`;
+  }
+
+  return targetDate.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric"
+  });
 }
 
 function DashboardLoadingOverlay({
@@ -216,7 +249,21 @@ function DashboardLoadingOverlay({
 
 function DashboardPage() {
   const navigate = useNavigate();
-  const { analyzeUrl, currentUrl, error, metrics, progress, progressLabel, status } = useAnalysis();
+  const { isAuthenticated } = useAuth();
+  const {
+    analyzeUrl,
+    createPublicShare,
+    currentUrl,
+    error,
+    historyError,
+    historyLoading,
+    historyRecords,
+    loadHistoryRecord,
+    metrics,
+    progress,
+    progressLabel,
+    status
+  } = useAnalysis();
   const factualMetrics = metrics || {
     aiInsights: [],
     auditSummary: {
@@ -235,13 +282,13 @@ function DashboardPage() {
     metaTitle: "Not found",
     missingAltTextPercentage: "0%",
     recommendations: [],
-    readingTime: "0.0m"
+    readingTime: "0.0 min"
   };
   const metricCards = [
     { icon: "description", value: factualMetrics.wordCount.toLocaleString(), label: "Total Word Count" },
     { icon: "format_h1", value: String(factualMetrics.headingCount).padStart(2, "0"), label: "Heading Count (H1-H3)" },
     { icon: "ads_click", value: String(factualMetrics.ctaCount).padStart(2, "0"), label: "CTA Count" },
-    { icon: "timer", value: factualMetrics.readingTime, label: "Reading Time" },
+    { icon: "timer", value: factualMetrics.readingTime, label: "Estimated Reading Time" },
     { icon: "link", value: String(factualMetrics.internalLinkCount).padStart(2, "0"), label: "Internal Links" },
     { icon: "open_in_new", value: String(factualMetrics.externalLinkCount).padStart(2, "0"), label: "External Links" },
     { icon: "image", value: String(factualMetrics.imageCount).padStart(2, "0"), label: "Image Count" },
@@ -249,6 +296,17 @@ function DashboardPage() {
   ];
   const insightCards = factualMetrics.aiInsights;
   const recommendationCards = factualMetrics.recommendations;
+  const recentHistory = historyRecords.slice(0, 3);
+  const [shareFeedback, setShareFeedback] = useState("");
+  const shareFeedbackTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (shareFeedbackTimeoutRef.current) {
+        window.clearTimeout(shareFeedbackTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleRerunAnalysis = async () => {
     if (!currentUrl) {
@@ -410,6 +468,59 @@ function DashboardPage() {
     pdf.save("auditly-report.pdf");
   };
 
+  const handleShareReport = async () => {
+    if (!isAuthenticated) {
+      navigate("/signup", {
+        state: {
+          from: "/dashboard",
+          intent: "share"
+        }
+      });
+      return;
+    }
+
+    try {
+      const publicShareUrl = await createPublicShare();
+
+      if (navigator.share) {
+        await navigator.share({
+          title: "Auditly Public Report",
+          text: "Open this public Auditly report.",
+          url: publicShareUrl
+        });
+        setShareFeedback("Public link shared");
+      } else if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(publicShareUrl);
+        setShareFeedback("Public link copied");
+      } else {
+        throw new Error("Sharing is not supported in this browser");
+      }
+    } catch (shareError) {
+      if (shareError?.name === "AbortError") {
+        setShareFeedback("");
+        return;
+      }
+
+      setShareFeedback(shareError instanceof Error ? shareError.message : "Share failed");
+    }
+
+    if (shareFeedbackTimeoutRef.current) {
+      window.clearTimeout(shareFeedbackTimeoutRef.current);
+    }
+
+    shareFeedbackTimeoutRef.current = window.setTimeout(() => {
+      setShareFeedback("");
+    }, 2200);
+  };
+
+  const handleOpenHistoryRecord = (recordId) => {
+    const didLoad = loadHistoryRecord(recordId);
+
+    if (didLoad) {
+      navigate("/dashboard");
+    }
+  };
+
   return (
     <div className="dashboard-page bg-surface text-on-surface selection:bg-primary selection:text-on-primary-container">
       <SiteHeader
@@ -443,8 +554,12 @@ function DashboardPage() {
             >
               <span className="material-symbols-outlined text-sm">download</span> Export PDF
             </button>
-            <PlaceholderButton className="flex items-center gap-2 bg-surface-container-high border border-outline-variant/20 px-5 py-3 rounded-xl text-sm font-semibold hover:bg-surface-container-highest transition-colors">
-              <span className="material-symbols-outlined text-sm">share</span> Share Report
+            <PlaceholderButton
+              className="flex items-center gap-2 bg-surface-container-high border border-outline-variant/20 px-5 py-3 rounded-xl text-sm font-semibold hover:bg-surface-container-highest transition-colors"
+              onClick={handleShareReport}
+            >
+              <span className="material-symbols-outlined text-sm">share</span>
+              {shareFeedback || "Share Report"}
             </PlaceholderButton>
           </div>
         </div>
@@ -617,7 +732,9 @@ function DashboardPage() {
                   </div>
                   <div className="space-y-1 text-right">
                     <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Status</label>
-                    <p className="text-sm font-semibold">{status === "success" ? "Live Scan" : "Ready"}</p>
+                    <p className="text-sm font-semibold">
+                      {status === "success" ? (isAuthenticated ? "Live Scan" : "Guest Scan") : "Ready"}
+                    </p>
                   </div>
                 </div>
                 <div className="pt-6 border-t border-outline-variant/10">
@@ -641,26 +758,91 @@ function DashboardPage() {
             </div>
 
             <div className="space-y-4">
-              <h4 className="text-sm font-bold uppercase tracking-widest text-on-surface-variant px-2">History</h4>
+              <div className="flex items-center justify-between px-2">
+                <h4 className="text-sm font-bold uppercase tracking-widest text-on-surface-variant">History</h4>
+                <button
+                  type="button"
+                  className="text-[10px] font-bold uppercase tracking-widest text-primary hover:text-primary-container transition-colors"
+                  onClick={() => {
+                    navigate("/history");
+                  }}
+                >
+                  View All
+                </button>
+              </div>
               <div className="space-y-2">
-                <div className="bg-surface-container-low p-4 rounded-xl border border-outline-variant/5 flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-surface-variant flex items-center justify-center text-primary">
-                    <span className="material-symbols-outlined">language</span>
+                {historyLoading ? (
+                  <div className="bg-surface-container-low p-4 rounded-xl border border-outline-variant/5 flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-surface-variant flex items-center justify-center text-primary">
+                      <span className="material-symbols-outlined">cloud_sync</span>
+                    </div>
+                    <div className="flex-grow overflow-hidden">
+                      <p className="text-xs font-bold text-on-surface truncate">Loading history</p>
+                      <p className="text-[10px] text-on-surface-variant">Fetching cloud-saved audits</p>
+                    </div>
                   </div>
-                  <div className="flex-grow overflow-hidden">
-                    <p className="text-xs font-bold text-on-surface truncate">marketing-ops-site.io</p>
-                    <p className="text-[10px] text-on-surface-variant">Yesterday • Score: 84</p>
+                ) : historyError ? (
+                  <div className="bg-surface-container-low p-4 rounded-xl border border-error/20 flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-error/10 flex items-center justify-center text-error">
+                      <span className="material-symbols-outlined">cloud_off</span>
+                    </div>
+                    <div className="flex-grow overflow-hidden">
+                      <p className="text-xs font-bold text-on-surface truncate">Cloud history unavailable</p>
+                      <p className="text-[10px] text-on-surface-variant">{historyError}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="bg-surface-container-low p-4 rounded-xl border border-outline-variant/5 flex items-center gap-4 opacity-60">
-                  <div className="w-10 h-10 rounded-lg bg-surface-variant flex items-center justify-center text-on-surface-variant">
-                    <span className="material-symbols-outlined">language</span>
+                ) : recentHistory.length === 0 ? (
+                  <div className="bg-surface-container-low p-4 rounded-xl border border-outline-variant/5 flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-surface-variant flex items-center justify-center text-primary">
+                      <span className="material-symbols-outlined">{isAuthenticated ? "history" : "lock"}</span>
+                    </div>
+                    <div className="flex-grow overflow-hidden">
+                      <p className="text-xs font-bold text-on-surface truncate">
+                        {isAuthenticated ? "No saved audits yet" : "Guest scans are not saved"}
+                      </p>
+                      <p className="text-[10px] text-on-surface-variant">
+                        {isAuthenticated
+                          ? "Run an analysis to store it in cloud history"
+                          : "Log in to save your audit history to the cloud"}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex-grow overflow-hidden">
-                    <p className="text-xs font-bold text-on-surface truncate">saas-landing-page.com</p>
-                    <p className="text-[10px] text-on-surface-variant">2 days ago • Score: 92</p>
-                  </div>
-                </div>
+                ) : (
+                  recentHistory.map((record) => {
+                    const score = record.metrics?.auditSummary?.score || 0;
+                    const isActiveRecord = record.url === currentUrl;
+
+                    return (
+                      <button
+                        key={record.id}
+                        type="button"
+                        className={`w-full text-left bg-surface-container-low p-4 rounded-xl border flex items-center gap-4 transition-colors ${
+                          isActiveRecord
+                            ? "border-primary/30 bg-surface-container"
+                            : "border-outline-variant/5 hover:bg-surface-container"
+                        }`}
+                        onClick={() => {
+                          handleOpenHistoryRecord(record.id);
+                        }}
+                      >
+                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                          isActiveRecord
+                            ? "bg-primary/10 text-primary"
+                            : "bg-surface-variant text-on-surface-variant"
+                        }`}>
+                          <span className="material-symbols-outlined">language</span>
+                        </div>
+                        <div className="flex-grow overflow-hidden">
+                          <p className="text-xs font-bold text-on-surface truncate">{getDomainLabel(record.url)}</p>
+                          <p className="text-[10px] text-on-surface-variant">
+                            {formatRelativeHistoryDate(record.createdAt)} • Score: {score}
+                          </p>
+                        </div>
+                        <span className="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+                      </button>
+                    );
+                  })
+                )}
               </div>
             </div>
           </aside>
@@ -678,22 +860,7 @@ function DashboardPage() {
         ) : null}
       </main>
 
-      <footer className="w-full py-12 border-t border-[#1c2116] bg-[#0b0f08]">
-        <div className="flex flex-col md:flex-row justify-between items-center px-12 gap-6">
-          <div className="font-['Product_Sans'] text-xs uppercase tracking-widest text-[#a9ada0]">© 2026 Auditly. All rights reserved.</div>
-          <div className="flex gap-8">
-            <PlaceholderLink className="font-['Product_Sans'] text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors">
-              Privacy Policy
-            </PlaceholderLink>
-            <PlaceholderLink className="font-['Product_Sans'] text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors">
-              Terms of Service
-            </PlaceholderLink>
-            <PlaceholderLink className="font-['Product_Sans'] text-xs uppercase tracking-widest text-[#a9ada0] hover:text-[#c5fd5d] transition-colors">
-              Cookie Policy
-            </PlaceholderLink>
-          </div>
-        </div>
-      </footer>
+      <AppFooter className="bg-[#0b0f08]" borderClassName="border-[#1c2116]" textClassName="text-[#a9ada0]" linkHoverClassName="hover:text-[#c5fd5d]" />
 
     </div>
   );
