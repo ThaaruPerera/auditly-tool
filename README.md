@@ -283,10 +283,30 @@ The original HTML source files used as the design base are included in the proje
 
 ## Future Improvements
 
-- move website fetching to a backend proxy for higher reliability
-- expand sharing controls and revoke links
-- add richer historical comparisons
-- connect more analysis signals to persistent reports
+With more time, the website can be enhanced with the following features to improve usability, functionality, and overall user experience:
+
+### Frontend / UI Enhancements
+
+- Dark Mode / Light Mode Toggle for user preference and readability
+- History filtering and searching so users can quickly find and revisit previous audits
+- Drag & drop reordering for selected history or dashboard modules
+- Enhanced dashboard customization so users can choose which metrics or insight blocks they want to see
+
+### Backend / Data Management
+
+- A backend proxy for more reliable website fetching and fewer browser-side fetch failures
+- Rate limiting and a queue system to handle multiple audits efficiently and prevent overload
+- Richer historical comparisons between saved audits over time
+- Deeper persistence for additional analysis signals and report states
+- Expanded sharing controls, including options like link revocation or share management
+- A dedicated user profile page where users can view and edit their personal information
+
+### Additional Improvements
+
+- Notifications to alert users when an audit completes or requires attention
+- Further AI and scoring improvements for more advanced and configurable insights
+
+These enhancements would make the tool more robust, user-friendly, and scalable for real-world usage.
 
 ## License
 
