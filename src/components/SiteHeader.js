@@ -58,7 +58,7 @@ function SiteHeader({
         </button>
       ) : (
         <RouteButton
-          to={ctaTo || "/analysis"}
+          to={ctaTo || "/signup"}
           className={ctaClassName}
         >
           Get Started

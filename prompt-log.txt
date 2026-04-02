@@ -1,0 +1,311 @@
+Auditly Build Prompt Log
+Source: this chat conversation
+Generated: April 2, 2026
+
+1.
+Prompt: I have four HTML files representing the UI of a web app: home.html, dashboard.html, analysis.html, and history.html. Build a full React application using these HTML files as the UI foundation, preserve the design exactly, add proper React structure, routing, pages, components, CSS, and make it runnable with npm start.
+Result: Converted the Stitch HTML screens into a full React app with routing, page components, shared structure, and preserved UI styling.
+
+2.
+Prompt: Perfect, in the homescreen, after the herosection its just plane color right, they devide using a curve like a ahlf curcle right, in there is a outerglow right. The outer glow suddenly stopped in top, somthing overlpas it i think
+Result: Adjusted the home curve transition and glow layering to stop the outer glow from being clipped at the top.
+
+3.
+Prompt: Now the bottom soild color overlaps everything in bottom.
+Result: Refined the home curve/solid section overlap so the lower section stopped covering content incorrectly.
+
+4.
+Prompt: I need to add a Logo to replace all logos with it. THis is the file
+Result: Added the Auditly SVG logo asset and replaced the existing logo marks across pages with a reusable logo component.
+
+5.
+Prompt: make home header logo a bit small
+Result: Reduced the logo size in the home page header.
+
+6.
+Prompt: also bring hero section conect down a bit. so all centers
+Result: Shifted the home hero section down slightly for better vertical centering.
+
+7.
+Prompt: Home page grid ending can see in the bottom. Extend it so grids disappears after overlapping on the half circle
+Result: Adjusted the home hero/grid fade near the bottom transition.
+
+8.
+Prompt: No, keep grid between the outer glow an the half circle. Top of gradient and bottom of the circle
+Result: Refined the bottom fade so the grid stayed visible longer before the half-circle transition.
+
+9.
+Prompt: Trusted by leading innovators section is under the gradent. Also Gradient ending is not smooth, Still gradinet get cut beofre it fully ends, It is bearly visible.
+Result: Fixed the trusted logos visibility and improved the lower fade/transition treatment.
+
+10.
+Prompt: hero section came down a bi,, fix it, still gradint nding is not smotth
+Result: Pulled the hero section back up and softened the bottom fade again.
+
+11.
+Prompt: By saying gradient, i mean is circle outer glow, Not top gradient, If u chnage anythign in that, revert them and fix the outer glow gradient ending
+Result: Reverted unrelated hero fade edits and focused the fix on the half-circle outer glow only.
+
+12.
+Prompt: Now Outer glow is top of the circle, bring it back,
+Result: Repositioned the outer glow so it sat back around the half-circle instead of above it.
+
+13.
+Prompt: nvm, rever all outer glow chnages. Still No
+Result: Reverted the custom outer-glow modifications and returned to the original glow styling.
+
+14.
+Prompt: Ok now, The outer glow ending get cuts before is fully. fades to 0% opacity. Fix it.
+Result: Gave the curve section more room so the glow could fade out fully without getting clipped.
+
+15.
+Prompt: Also whats the font used in home?
+Result: Confirmed the home page font setup that was currently in use.
+
+16.
+Prompt: Chnage all fonts to Google sans
+Result: Switched the app typography away from the original font to a Google Sans/Product Sans style setup.
+
+17.
+Prompt: it worked, Again fonts chnaged to placeholders
+Result: Fixed the font-family naming mismatch so the custom font rendered consistently instead of falling back.
+
+18.
+Prompt: in home header, increase the hight a bit
+Result: Increased the home header height slightly.
+
+19.
+Prompt: In header, insted of analyze button, ass Get Started Buton.
+Result: Changed the home header CTA text from Analyze to Get Started.
+
+20.
+Prompt: Now i need to use the same header with all pagers, Use the same header design, Content can be difffrent. Except home page, other pagers sould have Home, Dashboard, History button there, with auditly icon, and also
+Result: Created a shared header component and applied the home header style across the app with consistent navigation.
+
+21.
+Prompt: getting this error on history page
+Result: Fixed the History page runtime error caused by a missing logo import after the shared-header refactor.
+
+22.
+Prompt: In header Main button, mae that button edgers closer to header ednth with only likr 10px gap, Same As the Analyze Now Buton in hero section
+Result: Tightened the CTA spacing inside the shared header.
+
+23.
+Prompt: make button bit bigger
+Result: Increased the shared header button size.
+
+24.
+Prompt: dont chnage herder size, only button, i need same gap from header edgers on left, top and bottom,
+Result: Kept the header capsule size stable and enlarged only the button while preserving edge spacing.
+
+25.
+Prompt: make header bit thinner, and maintain the button gap, so make the button more thinner aswl
+Result: Reduced the shared header height and scaled the button thickness down to match.
+
+26.
+Prompt: Make footer text right, chnage name to Auditly and make year 2026
+Result: Updated footer branding text across pages to Auditly and 2026.
+
+27.
+Prompt: Now want to make this webiste funtional, For not lets only work on Dashboard, SO when i enter a URL intp Home Inout section, it should extract the information in dashboard. First lets do Factual Metrics only, While it loading, it shoud show the Analyze page
+Result: Built the first functional analysis flow from Home input to loading state and live factual metrics on the Dashboard.
+
+28.
+Prompt: Also insted of a diffrent page for loading screen, we can blur everyhing on dhashboard with the same design and loading animation, after that it gose away and shows the dhasbord.
+Result: Replaced the separate loading page with an in-dashboard blurred loading overlay.
+
+29.
+Prompt: After analysing it says Analysis failed. Load failed
+Result: Improved the fetch pipeline with multiple fallback sources and clearer failure messaging.
+
+30.
+Prompt: Now worked, Also Make analysing loading screen center to Screen, Not to whole page content
+Result: Centered the loading overlay relative to the full viewport instead of the content area.
+
+31.
+Prompt: Also in the loading page there are two icons on the back bluerd right, remove those. Also there are some dots right, make them more visible where mouse is to give it a morder loot,
+Result: Removed the extra blurred background icons and added a cursor-reactive dot-grid highlight to the loader.
+
+32.
+Prompt: reduce opacity more
+Result: Softened the mouse-reactive dot highlight effect.
+
+33.
+Prompt: Can we add a acutal loading? without the a line. Lice a % loading,
+Result: Replaced the generic loader line with a percentage display and progress bar.
+
+34.
+Prompt: Can u make the loading & more accurate insted of just a coutdown
+Result: Tied the loader progress and labels to real analysis stages rather than a fake timer.
+
+35.
+Prompt: Total word count / Heading counts (H1-H3) / Number of CTAs / Number of internal vs external links / Number of images / % of images missing alt text / Meta title and meta description ... these are needed Metrics. Add another row o mattrices. From now just Fix UI
+Result: Expanded the Dashboard factual metrics UI to include the requested metrics and a second row layout.
+
+36.
+Prompt: Keep Meta title and discription seperatly, Place it somewhere good
+Result: Moved Meta Title and Meta Description into their own dedicated cards outside the metric grid.
+
+37.
+Prompt: now make Factual Metrics 8 grids alignments. 4, 4 top and bottom
+Result: Changed the factual metrics section into a 4-by-4 style two-row grid.
+
+38.
+Prompt: Now make all Factual Metrics acctually work.
+Result: Wired all requested factual metrics to real extracted page values.
+
+39.
+Prompt: Perfect, now can u add "Visual scan snapshot generated via headless browser" image ass well?
+Result: Added a live snapshot image to the dashboard report panel using a screenshot service.
+
+40.
+Prompt: how to npm start
+Result: Provided the correct local commands to install dependencies and run the React app.
+
+41.
+Prompt: It says image not authoruzed and plases signup for a paid account
+Result: Swapped the screenshot provider to a free alternative that did not require a paid account.
+
+42.
+Prompt: It only says Generating Preview. but then i right click and open in new tab it shows the image
+Result: Added retry/cache-busting behavior so previews would refresh automatically when the screenshot became ready.
+
+43.
+Prompt: 2. AI Insights (Required) ... ARE THESE ALL THERE?
+Result: Reviewed the dashboard state and confirmed which AI insight features were still placeholders versus implemented.
+
+44.
+Prompt: Add missing features, just UI
+Result: Added the missing AI insight categories to the dashboard UI with grounded placeholders.
+
+45.
+Prompt: Now Fix all AI Content Insights.
+Result: Implemented dynamic AI insight generation from extracted metrics and content signals.
+
+46.
+Prompt: Also in the analzing page, can i see what part is now being scanned? Like be more specific.
+Result: Made the analysis loader show specific live scan stages.
+
+47.
+Prompt: Now Fix Critical Recommendations.
+Result: Replaced static critical recommendation content with recommendation logic based on real analysis signals.
+
+48.
+Prompt: In Analyzing page, Mostly only "Trying proxy source 1" can see
+Result: Improved the stage labeling and visibility of the broader analysis process.
+
+49.
+Prompt: Now need to make the audit summary and the Score.
+Result: Implemented a live audit summary and score derived from the analysis results.
+
+50.
+Prompt: also make the snapshop image 16:9 ratio
+Result: Updated the dashboard snapshot panel to a 16:9 aspect ratio.
+
+51.
+Prompt: Fix rerun analysy button
+Result: Made the Rerun Analysis button actually rerun the current URL analysis and refresh the dashboard.
+
+52.
+Prompt: Now need to fix Export PDF. Need to export a detailed PDF with Webiste LOGO and Name Auditly
+Result: Added functional PDF export with Auditly branding and report content.
+
+53.
+Prompt: Dont need the output to be same as UI, Just somthing printable wiht the Our Logo on top saying genarated from bla bla
+Result: Simplified PDF export into a clean report-style document rather than a UI screenshot export.
+
+54.
+Prompt: Make it printable in full white background, Use Black text, also can use Our Main Dark green color
+Result: Restyled the PDF for print with a white background, black text, and Auditly dark green accents.
+
+55.
+Prompt: Logo is Kinda blur, SVG is sttached, it is white, so make it black as well, also move logo like 5 pixel up.
+Result: Sharpened the PDF logo, converted it to black for print, and nudged it upward slightly.
+
+56.
+Prompt: Bring all content lovr from logo, cuz need like more 10px from logo, gap
+Result: Added more vertical spacing below the PDF logo before the report content started.
+
+57.
+Prompt: Too much! bring half from the full amount up.
+Result: Reduced the extra PDF header spacing to a balanced middle value.
+
+58.
+Prompt: I added sign up and login pagers. Now add a profiile icon on top right with some Hi, and his name when signed uped
+Result: Added auth-aware profile greeting logic and user display support tied to signup/login state.
+
+59.
+Prompt: nonono, not inside the header, in right coner, make headeer back.
+Result: Restored the header and moved the signed-in profile display to a separate fixed top-right component.
+
+60.
+Prompt: dont add anything back, just profile and name of left side Hi and name
+Result: Simplified the profile display to just the greeting, name, and icon arrangement.
+
+61.
+Prompt: and remove background color and outline, just profile and name. Nothing in the back
+Result: Removed the profile chip background and border styling.
+
+62.
+Prompt: in one line
+Result: Changed the greeting and name to render in a single line.
+
+63.
+Prompt: in header just keep get started button and remove login and sign up button. When click get started button going to sign up page.
+Result: Cleaned the home header nav and pointed Get Started to the signup page.
+
+64.
+Prompt: make sign up and login page background same as header background and outline
+Result: Matched the auth card styling more closely to the shared header glass treatment.
+
+65.
+Prompt: header is more darker
+Result: Darkened the auth card styling further to sit closer to the header tone.
+
+66.
+Prompt: i meane make backgorund more darker in login and sign up pagers. i need it same as the header back colour
+Result: Adjusted the auth page background darker to align more closely with the header’s tone.
+
+67.
+Prompt: nvm, revert it. Dont chnage back colour
+Result: Reverted the auth page background color change.
+
+68.
+Prompt: did some changerd and removed profile icon. add it back again
+Result: Restored the profile icon next to the greeting and name.
+
+69.
+Prompt: Still not there, i did some chnagers, so check all back and add profile icond anmd name same as before and login process. Im connecting a database after.
+Result: Re-mounted the profile component globally and reconnected it to the local auth flow.
+
+70.
+Prompt: add a logout popup when i hover profile icon.
+Result: Added a hover menu on the profile icon with a Logout action tied to the local session.
+
+71.
+Prompt: creat login and sign up process. im connecting a database later
+Result: Implemented a proper local signup/login system with stored accounts, validation, session persistence, and protected routes.
+
+72.
+Prompt: remove confirm passwor in signup
+Result: Removed the confirm-password field from the signup form and simplified signup again.
+
+73.
+Prompt: Now in history page, remove two left boxes. Make histry full wide. Just Ui
+Result: Removed the left sidebar boxes and made the history table section full width.
+
+74.
+Prompt: Now connect history into account. Save all histry info and show them in history page connect them to users profile as well.
+Result: Connected saved audits to each signed-in user and rendered real account-specific history records with reopen support.
+
+75.
+Prompt: In history page make all alighment and design same as dashboard, the wway topics part are everything.
+Result: Reshaped the History page layout to visually match the Dashboard shell, spacing, and card structure.
+
+76.
+Prompt: now need to add this git hub. full code
+Result: Started the Git setup flow for pushing the full project to GitHub.
+
+77.
+Prompt: https://github.com/ThaaruPerera/auditly-tool.git
+Result: Initialized git, added a proper .gitignore, connected the remote, merged the remote README history, and pushed the full Auditly codebase to GitHub.
