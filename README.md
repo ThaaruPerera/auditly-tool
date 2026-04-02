@@ -32,9 +32,11 @@ The UI is based on the original Stitch-designed HTML screens and has been conver
 
 The development of Auditly followed a structured UI-first workflow, moving from design, to frontend implementation, to backend integration, and finally deployment.
 
-The project started with the visual design phase. Initial interfaces and layouts were created and refined using design tools, with the full experience planned around the required product flow: Home, Dashboard, Analysis/loading, History, authentication, and shared reporting states. These designs were then translated into Google Stitch, where the UI was expanded and finalized into complete screen-level HTML outputs.
+The project started with the visual design phase. The Home page was first designed in Figma, with additional template inspiration used to shape the layout and visual direction. That Figma design was then used as the reference for building the Home screen in Google Stitch.
 
-The generated HTML files from Google Stitch became the visual foundation of the application. These static files were brought into Visual Studio Code and converted into a complete React application using Codex. During this stage, the focus was on preserving the original design exactly while restructuring the code into reusable React components, page-level routes, shared layout elements, and a maintainable project architecture.
+After the Home UI was established, the remaining screens such as Dashboard, Analysis/loading, History, and supporting product states were generated in Google Stitch and then fine-tuned to better match the intended product experience. Once those screens were finalized, the corresponding HTML was generated from Stitch and used as the visual foundation of the application.
+
+These static HTML files were then brought into Visual Studio Code and converted into a complete React application using Codex. During this stage, the focus was on preserving the original design exactly while restructuring the code into reusable React components, page-level routes, shared layout elements, and a maintainable project architecture.
 
 Once the frontend structure was in place, the application was enhanced with real functionality. The dashboard was connected to a live analysis flow that accepts a website URL, extracts structured content signals, and presents factual metrics such as word count, headings, CTAs, links, images, alt-text coverage, and metadata. On top of these extracted signals, the app generates AI-style content insights, audit scoring, and recommendation summaries to create a full website audit experience.
 
