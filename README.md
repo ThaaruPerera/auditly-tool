@@ -28,6 +28,22 @@ The UI is based on the original Stitch-designed HTML screens and has been conver
 - Email/password authentication with Supabase
 - Google sign-in with Supabase OAuth
 
+## Development Process Overview
+
+The development of Auditly followed a structured UI-first workflow, moving from design, to frontend implementation, to backend integration, and finally deployment.
+
+The project started with the visual design phase. Initial interfaces and layouts were created and refined using design tools, with the full experience planned around the required product flow: Home, Dashboard, Analysis/loading, History, authentication, and shared reporting states. These designs were then translated into Google Stitch, where the UI was expanded and finalized into complete screen-level HTML outputs.
+
+The generated HTML files from Google Stitch became the visual foundation of the application. These static files were brought into Visual Studio Code and converted into a complete React application using Codex. During this stage, the focus was on preserving the original design exactly while restructuring the code into reusable React components, page-level routes, shared layout elements, and a maintainable project architecture.
+
+Once the frontend structure was in place, the application was enhanced with real functionality. The dashboard was connected to a live analysis flow that accepts a website URL, extracts structured content signals, and presents factual metrics such as word count, headings, CTAs, links, images, alt-text coverage, and metadata. On top of these extracted signals, the app generates AI-style content insights, audit scoring, and recommendation summaries to create a full website audit experience.
+
+After the core dashboard flow was functional, user-focused features were added around it. This included authentication, personalized report history, saved audit records tied to each signed-in user, public report sharing, and printable PDF export. Supabase was integrated as the backend service to support authentication, persistent analysis history, and shared report storage.
+
+Finally, the application was prepared for deployment as a React single-page app and configured for hosting through Vercel, with routing support for direct page access and refresh-safe navigation.
+
+Prompt logs used during the AI-assisted development process and feature orchestration were documented separately and included as part of the project materials.
+
 ## Tech Stack
 
 - React 18
