@@ -58,7 +58,7 @@ function SiteHeader({
         </button>
       ) : (
         <RouteButton
-          to={ctaTo || "/signup"}
+          to="/signup"
           className={ctaClassName}
         >
           Get Started
